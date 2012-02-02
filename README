@@ -1,0 +1,4 @@
+README
+
+VCM on quantum dots:
+This program runs variational monte carlo to find the ground state of quantum dots.
