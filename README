@@ -1,4 +1,15 @@
 README
 
 VCM on quantum dots:
-This program runs variational monte carlo to find the ground state of quantum dots.
+This program runs variational monte carlo to find the ground state of quantum dots.  
+
+Pushing to git:
+
+  mkdir VMC
+  cd VMC
+  git init
+  touch README
+  git add README
+  git commit -m 'first commit'
+  git remote add origin git@github.com:sigvebs/VMC.git
+  git push -u origin master
