@@ -1,10 +1,6 @@
-README
+README:  
 
-VCM on quantum dots:  
-
-Pushing to git:
-
-  git add README
-  git commit -m 'first commit'
-  git remote add origin git@github.com:sigvebs/VMC.git
-  git push -u origin master
+git add filename
+git commit -m 'update'
+git push -u origin master
+git difftool
