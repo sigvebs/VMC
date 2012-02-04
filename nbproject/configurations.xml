@@ -12,6 +12,10 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
+      <itemPath>Potential.cpp</itemPath>
+      <itemPath>Potential.h</itemPath>
+      <itemPath>Wavefunction.cpp</itemPath>
+      <itemPath>Wavefunction.h</itemPath>
       <itemPath>main.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
