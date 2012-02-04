@@ -1,5 +1,7 @@
 /* 
- * File:   main.cpp
+ * File:   main.cpp 
+ * Author: Sigve
+
  *
  * Created on February 4, 2012, 10:41 PM
  */
