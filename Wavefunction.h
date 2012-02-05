@@ -11,10 +11,19 @@
 class Wavefunction {
 public:
     Wavefunction();
+    Wavefunction(int, int, double, double);
     Wavefunction(const Wavefunction& orig);
     virtual ~Wavefunction();
-private:
-
+    
+    // Functions
+    int getDim(){ return dim;};
+    int getNParticles(){ return n_particles;};
+    //double evaluate( double** ){ return 1;};
+protected:
+    int dim;
+    int n_particles;
+    double alpha;
+    double beta;
 };
 
 #endif	/* WAVEFUNCTION_H */

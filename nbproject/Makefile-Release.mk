@@ -34,9 +34,12 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/Helium.o \
 	${OBJECTDIR}/Wavefunction.o \
 	${OBJECTDIR}/main.o \
-	${OBJECTDIR}/Potential.o
+	${OBJECTDIR}/Potential.o \
+	${OBJECTDIR}/QVMC.o \
+	${OBJECTDIR}/lib.o
 
 
 # C Compiler Flags
@@ -63,6 +66,11 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/vmc: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/vmc ${OBJECTFILES} ${LDLIBSOPTIONS} 
 
+${OBJECTDIR}/Helium.o: Helium.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/Helium.o Helium.cpp
+
 ${OBJECTDIR}/Wavefunction.o: Wavefunction.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
@@ -77,6 +85,16 @@ ${OBJECTDIR}/Potential.o: Potential.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/Potential.o Potential.cpp
+
+${OBJECTDIR}/QVMC.o: QVMC.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/QVMC.o QVMC.cpp
+
+${OBJECTDIR}/lib.o: lib.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/lib.o lib.cpp
 
 # Subprojects
 .build-subprojects:
