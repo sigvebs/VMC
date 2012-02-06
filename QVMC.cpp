@@ -75,7 +75,6 @@ void QVMC::solve( ){
     cout << "Step length = " << step_length << "\n";
     cout << "<E> = " << energy << "\n";
     cout << "<E^2> = " << energy_sq << "\n";
-    
 }
 
 QVMC::QVMC() {    
