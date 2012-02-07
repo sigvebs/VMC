@@ -4,7 +4,7 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
-      <itemPath>Helium.h</itemPath>
+      <itemPath>Hamiltonian.h</itemPath>
       <itemPath>Potential.h</itemPath>
       <itemPath>QVMC.h</itemPath>
       <itemPath>Wavefunction.h</itemPath>
@@ -17,7 +17,7 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
-      <itemPath>Helium.cpp</itemPath>
+      <itemPath>Hamiltonian.cpp</itemPath>
       <itemPath>Potential.cpp</itemPath>
       <itemPath>QVMC.cpp</itemPath>
       <itemPath>Wavefunction.cpp</itemPath>

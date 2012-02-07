@@ -8,22 +8,27 @@
 #ifndef WAVEFUNCTION_H
 #define	WAVEFUNCTION_H
 
+
 class Wavefunction {
 public:
     Wavefunction();
-    Wavefunction(int, int, double, double);
-    Wavefunction(const Wavefunction& orig);
+    Wavefunction(int, int, double, double, double);
     virtual ~Wavefunction();
     
     // Functions
-    int getDim(){ return dim;};
     int getNParticles(){ return n_particles;};
-    //double evaluate( double** ){ return 1;};
+    int getDim(){ return dim;};
+    double getAlpha(){ return alpha;};
+    double getBeta(){ return beta;};
+    double getCharge( ){ return charge; };
+    double evaluate( double** );
+    double get_energy( double** );
 protected:
     int dim;
     int n_particles;
     double alpha;
     double beta;
+    double charge;
 };
 
 #endif	/* WAVEFUNCTION_H */

@@ -7,6 +7,7 @@
 
 #include "Hamiltonian.h"
 #include <math.h>
+#include <iostream>
 
 double Hamiltonian::get_energy( double** r){
   double argument;
@@ -33,19 +34,12 @@ double Hamiltonian::get_energy( double** r){
 }
 
 Hamiltonian::Hamiltonian( Wavefunction* wf ) {
-    this->wf = wf;    
-    this->dim = wf->getDim();
-    this->n_particles = wf->getNParticles();
-    this->alpha = wf->getAlpha();
-    this->beta = wf->getBeta();
-    this->charge = wf->getCharge();
-}
-
-Hamiltonian::Hamiltonian() {    
-
-}
-
-Hamiltonian::Hamiltonian(const Hamiltonian& orig) {
+    this->wf            = wf;    
+    this->dim           = wf->getDim();
+    this->n_particles   = wf->getNParticles();
+    this->alpha         = wf->getAlpha();
+    this->beta          = wf->getBeta();
+    this->charge        = wf->getCharge();
 }
 
 Hamiltonian::~Hamiltonian() {

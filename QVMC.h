@@ -9,12 +9,12 @@
 #define	QVMC_H
 
 #include "Wavefunction.h"
-#include "Helium.h"
+#include "Hamiltonian.h"
 
 class QVMC {
 public:
     QVMC();
-    QVMC( Helium* , int );
+    QVMC( Wavefunction* , int, long );
     QVMC(const QVMC& orig);
     virtual ~QVMC();
     
@@ -24,26 +24,10 @@ public:
     double difference( double );
     void mc_sampling( int, double, int&, double& , double& );
 protected:
-    Helium* wf;
+    Wavefunction* wf;
+    Hamiltonian* ht;
     int mc_cycles;
-    long int idum;
-    /*
-  int numproc, my_rank;
-  int mc_samples;
-  int steps_variation;
-  int dim;
-  int electrons;
-  int z;
-  double *energy, *energy_sq, *acc;
-  double step_length_max, step_length_min;
-  double tolerance;
-  double alph, bet;
-  double alpha_0, beta_0;
-  double delta_alpha, delta_beta;
-  long idum;
-  bool jastrow;
-  int active_parameter;
-*/
+    long idum;
 };
 
 #endif	/* QVMC_H */
