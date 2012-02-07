@@ -6,7 +6,7 @@
  */
 #include <math.h>
 #include "Helium.h"
-#include <iostream.h>
+#include <iostream>
 
 double Helium::evaluate( double** r ){
   double argument = 0;

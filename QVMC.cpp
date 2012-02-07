@@ -7,7 +7,7 @@
 
 #include "QVMC.h"
 #include "lib.h"
-#include <iostream.h>
+#include <iostream>
 
 void QVMC::mc_sampling( int cycles, double step_length, int& accepted, double& loc_energy, double& loc_energy_sq){    
     double dim, n_particles;
