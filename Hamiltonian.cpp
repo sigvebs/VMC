@@ -67,6 +67,12 @@ double Hamiltonian::get_analytic_energy( double** r){
  * DESCRIPTION :        Constructor 
  * 
  */
+Hamiltonian::Hamiltonian( Potential* potential, Interaction* interaction, Kinetic* kinetic ) {
+    this->potential = potential;
+    this->interaction = interaction;
+    this->kinetic = kinetic;
+}
+/*
 Hamiltonian::Hamiltonian( Wavefunction* wf ) {
     this->wf            = wf;    
     this->dim           = wf->getDim();
@@ -76,7 +82,7 @@ Hamiltonian::Hamiltonian( Wavefunction* wf ) {
     this->charge        = wf->getCharge();
     analytic_energy     = false; // More later
 }
-
+*/
 /*******************************************************************
  * 
  * NAME :               get_numerical_energy( double** r )
@@ -86,9 +92,13 @@ Hamiltonian::Hamiltonian( Wavefunction* wf ) {
  */
 double Hamiltonian::get_numerical_energy( double** r ){
 // the step length and its squared inverse for the second derivative 
-#define h 0.001
-#define h2 1000000
-  
+    double e_pot, e_int, e_kin = 0;
+    
+//    e_pot = potential->solve(r);
+    //interaction;
+    //kinetic;
+    
+  /*
   int i, j , k;
   double e_local, wfminus, wfplus, wfold, e_kinetic, e_potential, r_12, r_single_particle;
   double **r_plus, **r_minus;
@@ -149,6 +159,8 @@ double Hamiltonian::get_numerical_energy( double** r ){
   free_matrix((void **) r_minus);
   e_local = e_potential+e_kinetic;
   return e_local;
+*/
+    return e_pot + e_int + e_kin;
 }
 
 Hamiltonian::~Hamiltonian() {

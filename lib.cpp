@@ -34,7 +34,7 @@ void rk4(double *y, double *dydx, int n, double x, double h, double  *yout,
     ** Input data:                      
     **  int row      - number of  rows          
     **  int col      - number of columns        
-    Æ*  int num_bytes- number of bytes for each 
+    ï¿½*  int num_bytes- number of bytes for each 
     **                 element                  
     ** Returns a void  **pointer to the reserved memory location.                                
 

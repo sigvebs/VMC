@@ -15,11 +15,11 @@
  *
  * DESCRIPTION :        Constructor
  */
-QVMC::QVMC( Wavefunction* wf, int mc_cycles, long idum ) {
+QVMC::QVMC( Hamiltonian* ht, Wavefunction* wf, int mc_cycles, long idum ) {
+    this->ht = ht;
     this->wf = wf;
     this->mc_cycles = mc_cycles;
     this->idum = idum;
-    ht = new Hamiltonian( wf );
 }
 
 /*******************************************************************
@@ -28,7 +28,7 @@ QVMC::QVMC( Wavefunction* wf, int mc_cycles, long idum ) {
  *                      int& accepted, double& total_energy, 
  *                      double& total_energy_sq)
  *
- * DESCRIPTION :        Comming
+ * DESCRIPTION :        Coming
  */
 void QVMC::solve( ){
     double step_length, energy, energy_sq;
@@ -51,7 +51,7 @@ void QVMC::solve( ){
  *                      int& accepted, double& total_energy, 
  *                      double& total_energy_sq)
  *
- * DESCRIPTION :        Comming
+ * DESCRIPTION :        Coming
  */
 void QVMC::mc_sampling( int cycles, double step_length, int& accepted, double& total_energy, double& total_energy_sq){
   int i, j;
@@ -125,7 +125,7 @@ void QVMC::mc_sampling( int cycles, double step_length, int& accepted, double& t
  * 
  * NAME :               optimal_step_length()
  *
- * DESCRIPTION :        Comming
+ * DESCRIPTION :        Coming
  */
 double QVMC::optimal_step_length(){
   double min, max, tolerance;
@@ -146,7 +146,7 @@ double QVMC::optimal_step_length(){
  * 
  * NAME :               difference( double step_length )
  *
- * DESCRIPTION :        Comming
+ * DESCRIPTION :        Coming
  */
 double QVMC::difference( double step_length ){
     double tmp1, tmp2;

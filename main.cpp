@@ -10,6 +10,15 @@
 #include "QVMC.h"
 #include "Wavefunction.h"
 
+// Includes
+#include "Potential.h"
+#include "Coulomb_pot.h"
+#include "Hamiltonian.h"
+#include "Interaction.h"
+#include "electron_interaction.h"
+#include "Kinetic.h"
+#include "Kinetic_electron.h"
+
 using namespace std;
 
 /*
@@ -29,9 +38,18 @@ int main(int argc, char** argv) {
     dim = 3;
     charge = 2.0;
     
-    Wavefunction* wf = new Wavefunction( dim, n_particles, a, b, charge);
-    QVMC* test = new QVMC( wf, mc_cycles, idum );
+    // Initiating settings
+    Potential* potential = new Coulomb_pot( dim, n_particles, charge );
+    Interaction* interaction = new electron_interaction( dim, n_particles, charge );
+    Kinetic* kinetic = new Kinetic_electron(dim, n_particles, charge );
+    
+    Hamiltonian* ht = new Hamiltonian( potential, interaction, kinetic );
+    
+    Wavefunction* wf = new Wavefunction( dim, n_particles, a, b, charge );
+    kinetic->set_wf( wf );
+    QVMC* test = new QVMC( ht, wf, mc_cycles, idum );
     test->solve();
+    
     return 0;
 }
 

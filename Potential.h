@@ -11,10 +11,14 @@
 class Potential {
 public:
     Potential();
+    Potential( int, int, double );
     Potential(const Potential& orig);
+    double solve(double**);
     virtual ~Potential();
-private:
-
+protected:
+    int n_particles;
+    int dim;
+    int charge;
 };
 
 #endif	/* POTENTIAL_H */

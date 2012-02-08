@@ -5,6 +5,8 @@
                    displayName="Header Files"
                    projectFiles="true">
       <itemPath>Hamiltonian.h</itemPath>
+      <itemPath>Interaction.h</itemPath>
+      <itemPath>Kinetic.h</itemPath>
       <itemPath>Potential.h</itemPath>
       <itemPath>QVMC.h</itemPath>
       <itemPath>Wavefunction.h</itemPath>
@@ -13,11 +15,23 @@
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
                    projectFiles="true">
+      <logicalFolder name="f1" displayName="Light Atoms" projectFiles="true">
+        <itemPath>Coulomb_pot.cpp</itemPath>
+        <itemPath>Coulomb_pot.h</itemPath>
+        <itemPath>Kinetic_electron.cpp</itemPath>
+        <itemPath>Kinetic_electron.h</itemPath>
+        <itemPath>electron_interaction.cpp</itemPath>
+        <itemPath>electron_interaction.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="f2" displayName="Quantum Dots" projectFiles="true">
+      </logicalFolder>
     </logicalFolder>
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
       <itemPath>Hamiltonian.cpp</itemPath>
+      <itemPath>Interaction.cpp</itemPath>
+      <itemPath>Kinetic.cpp</itemPath>
       <itemPath>Potential.cpp</itemPath>
       <itemPath>QVMC.cpp</itemPath>
       <itemPath>Wavefunction.cpp</itemPath>
