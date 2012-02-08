@@ -12,16 +12,21 @@ class Hamiltonian {
 public:
     Hamiltonian();
     Hamiltonian( Wavefunction* );
-    Hamiltonian(const Hamiltonian& orig);
     virtual ~Hamiltonian();
     double get_energy( double** r);
 protected:
+    // Protected variables
     Wavefunction* wf;
     int dim;
     int n_particles;
     double alpha;
     double beta;
     double charge;
+    bool analytic_energy;
+    
+    // Protected functions
+    double get_analytic_energy( double** );
+    double get_numerical_energy( double** r );
 };
 
 #endif	/* HAMILTONIAN_H */

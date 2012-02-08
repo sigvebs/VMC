@@ -17,13 +17,13 @@ using namespace std;
  */
 int main(int argc, char** argv) {
     // Defining values
-    int mc_cycles = (int)1e8;
-
+    int mc_cycles = (int)1e6;
+    
     // Defining atom and dimensions
     int dim, n_particles;
     double a, b, charge;    
     long idum = -1;
-    a = 1.8;
+    a = 1.832;
     b = 0.4;
     n_particles = 2;
     dim = 3;

@@ -23,12 +23,15 @@ public:
     double getCharge( ){ return charge; };
     double evaluate( double** );
     double get_energy( double** );
+    double eval_simple( double** );
+    double eval_jastrow( double** );
 protected:
     int dim;
     int n_particles;
     double alpha;
     double beta;
     double charge;
+    bool jastrow;
 };
 
 #endif	/* WAVEFUNCTION_H */
