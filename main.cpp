@@ -5,12 +5,13 @@
  *
  * Created on February 4, 2012, 10:41 PM
  */
-
+#include <math.h>
 #include <cstdlib>
-#include "QVMC.h"
-#include "Wavefunction.h"
+
 
 // Includes
+#include "QVMC.h"
+#include "Wavefunction.h"
 #include "Potential.h"
 #include "Coulomb_pot.h"
 #include "Hamiltonian.h"

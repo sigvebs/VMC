@@ -28,7 +28,6 @@ double Coulomb_pot:: evaluate( double** r ) {
         e_potential -= charge / sqrt(r_single_particle);
     }
 
-
     return e_potential;
 }
 

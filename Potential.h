@@ -13,7 +13,9 @@ public:
     Potential();
     Potential( int, int, double );
     Potential(const Potential& orig);
-    double solve(double**);
+    
+    virtual double evaluate(double**) = 0;
+    
     virtual ~Potential();
 protected:
     int n_particles;

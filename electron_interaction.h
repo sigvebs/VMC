@@ -15,7 +15,7 @@ public:
     electron_interaction(int, int, double  );
     virtual ~electron_interaction();
     
-    double evaluate( double** );
+    virtual double evaluate( double** );
 private:
 
 };

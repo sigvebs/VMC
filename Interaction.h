@@ -13,6 +13,8 @@ public:
     Interaction(int dim, int n_particles,  double charge );
     Interaction(const Interaction& orig);
     virtual ~Interaction();
+    
+    virtual double evaluate( double** r) = 0;
 protected:
     int n_particles;
     int dim;

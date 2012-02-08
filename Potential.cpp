@@ -16,6 +16,7 @@ Potential::Potential( int dim, int n_particles,  double charge ){
 Potential::Potential(const Potential& orig) {
 }
 
+
 Potential::~Potential() {
 }
 

@@ -14,7 +14,7 @@ public:
     Kinetic_electron( int, int, double );
     virtual ~Kinetic_electron();
     
-    double evaluate( double** );
+    virtual double evaluate( double** );
 private:
 
 };

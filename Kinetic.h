@@ -16,6 +16,7 @@ public:
     virtual ~Kinetic();
     
     void set_wf( Wavefunction* wf){ this->wf = wf;};
+    virtual double evaluate( double** ) = 0;
 protected:
     int n_particles;
     int dim;

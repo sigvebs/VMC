@@ -14,7 +14,7 @@ public:
     Coulomb_pot();
     Coulomb_pot(int n_particles, int dim, double charge);
     virtual ~Coulomb_pot();
-    double evaluate( double** );
+    virtual double evaluate( double** );
 private:
 };
 
