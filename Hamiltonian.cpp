@@ -32,11 +32,8 @@ Hamiltonian::Hamiltonian( Potential* potential, Interaction* interaction, Kineti
  * 
  */
 double Hamiltonian::get_energy( double** r){
-    double energy = 0;
-    if( analytic_energy )
-        energy = get_analytic_energy( r );
-    else
-        energy = get_numerical_energy( r );
+    double energy;
+    energy = get_numerical_energy( r );
               
     return energy;
 }
@@ -49,6 +46,7 @@ double Hamiltonian::get_energy( double** r){
  *                      energy at the coordinate r.
  * 
  */
+/*
 double Hamiltonian::get_analytic_energy( double** r){
   double argument;
   double r_12;
@@ -73,7 +71,7 @@ double Hamiltonian::get_analytic_energy( double** r){
   return (alpha - 2)*argument + 1.0/r_12 - alpha*alpha;
     
 }
-
+*/
 
 /*******************************************************************
  * 

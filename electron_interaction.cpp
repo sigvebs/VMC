@@ -8,7 +8,7 @@
 #include "electron_interaction.h"
 #include <math.h>
 
-electron_interaction::electron_interaction(int dim, int n_particles,  double charge): Interaction(dim, n_particles, charge ){
+electron_interaction::electron_interaction(int dim, int n_particles ): Interaction(dim, n_particles ){
 }
 
 /*******************************************************************

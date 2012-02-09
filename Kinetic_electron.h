@@ -11,7 +11,7 @@
 
 class Kinetic_electron: public Kinetic {
 public:
-    Kinetic_electron( int, int, double );
+    Kinetic_electron( int, int );
     virtual ~Kinetic_electron();
     
     virtual double evaluate( double** );

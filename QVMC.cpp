@@ -152,7 +152,7 @@ double QVMC::difference( double step_length ){
     double tmp1, tmp2;
     double tot_energy, tot_energy_sq; 
     int accepted, mc_samples_sl;
-    mc_samples_sl =  (int)1e4;
+    mc_samples_sl =  (int)1e5;
     tot_energy = tot_energy_sq = 0; 
     accepted = 0;
     mc_sampling( mc_samples_sl, step_length, accepted, tmp1, tmp2 );

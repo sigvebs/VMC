@@ -17,12 +17,11 @@
  * DESCRIPTION :        Constructor
  * 
  */
-Wavefunction::Wavefunction(int dim, int n_particles, double alpha, double beta, double charge) {
+Wavefunction::Wavefunction(int dim, int n_particles, double alpha, double beta ) {
     this->dim = dim;
     this->n_particles = n_particles;
     this->alpha = alpha;
     this->beta = beta;
-    this->charge = charge;
     jastrow = true;
 }
 
@@ -33,6 +32,7 @@ Wavefunction::Wavefunction(int dim, int n_particles, double alpha, double beta, 
  * DESCRIPTION :        Evaluates the wavefunction at the coordinate r.
  * 
  */
+/*
 double Wavefunction::evaluate( double** r ){
     double psi;
     psi = eval_simple(r);
@@ -42,7 +42,7 @@ double Wavefunction::evaluate( double** r ){
     
     return psi;
 }
-
+*/
 /*******************************************************************
  * 
  * NAME :               eval_simple( double** r)
@@ -50,6 +50,7 @@ double Wavefunction::evaluate( double** r ){
  * DESCRIPTION :        Evaluates the 'simple' wavefunction at the coordinate r.
  * 
  */
+/*
 double Wavefunction::eval_simple( double** r ){
   double argument = 0;
   double r_;
@@ -64,7 +65,7 @@ double Wavefunction::eval_simple( double** r ){
   
   return exp(-alpha*argument);
 }
-
+*/
 /*******************************************************************
  * 
  * NAME :               eval_jastrow( double** r)
@@ -72,6 +73,7 @@ double Wavefunction::eval_simple( double** r ){
  * DESCRIPTION :        Evaluates the Jastrow function at the coordinate r.
  * 
  */
+/*
 double Wavefunction::eval_jastrow( double** r ){
   double r_12;
 
@@ -82,6 +84,6 @@ double Wavefunction::eval_jastrow( double** r ){
   r_12 = sqrt(r_12);
   return exp(r_12/(2*(1+beta*r_12)));
 }
-
+*/
 Wavefunction::~Wavefunction() {
 }

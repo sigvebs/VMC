@@ -7,10 +7,9 @@
 
 #include "Potential.h"
 
-Potential::Potential( int dim, int n_particles,  double charge ){
+Potential::Potential( int dim, int n_particles ){
     this->n_particles = n_particles;
     this->dim = dim;
-    this->charge = charge;
 }
 
 Potential::Potential(const Potential& orig) {

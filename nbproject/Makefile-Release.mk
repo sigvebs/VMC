@@ -36,13 +36,15 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 OBJECTFILES= \
 	${OBJECTDIR}/Interaction.o \
 	${OBJECTDIR}/Coulomb_pot.o \
+	${OBJECTDIR}/Harmonic_osc.o \
 	${OBJECTDIR}/Wavefunction.o \
-	${OBJECTDIR}/main.o \
 	${OBJECTDIR}/Potential.o \
+	${OBJECTDIR}/main.o \
 	${OBJECTDIR}/Kinetic_electron.o \
 	${OBJECTDIR}/Kinetic.o \
 	${OBJECTDIR}/Hamiltonian.o \
 	${OBJECTDIR}/QVMC.o \
+	${OBJECTDIR}/QD_wavefunction.o \
 	${OBJECTDIR}/lib.o \
 	${OBJECTDIR}/electron_interaction.o
 
@@ -81,20 +83,25 @@ ${OBJECTDIR}/Coulomb_pot.o: Coulomb_pot.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/Coulomb_pot.o Coulomb_pot.cpp
 
+${OBJECTDIR}/Harmonic_osc.o: Harmonic_osc.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/Harmonic_osc.o Harmonic_osc.cpp
+
 ${OBJECTDIR}/Wavefunction.o: Wavefunction.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/Wavefunction.o Wavefunction.cpp
 
-${OBJECTDIR}/main.o: main.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/main.o main.cpp
-
 ${OBJECTDIR}/Potential.o: Potential.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/Potential.o Potential.cpp
+
+${OBJECTDIR}/main.o: main.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/main.o main.cpp
 
 ${OBJECTDIR}/Kinetic_electron.o: Kinetic_electron.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -115,6 +122,11 @@ ${OBJECTDIR}/QVMC.o: QVMC.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/QVMC.o QVMC.cpp
+
+${OBJECTDIR}/QD_wavefunction.o: QD_wavefunction.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/QD_wavefunction.o QD_wavefunction.cpp
 
 ${OBJECTDIR}/lib.o: lib.cpp 
 	${MKDIR} -p ${OBJECTDIR}

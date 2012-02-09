@@ -11,7 +11,7 @@
 class Potential {
 public:
     Potential();
-    Potential( int, int, double );
+    Potential( int, int );
     Potential(const Potential& orig);
     
     virtual double evaluate(double**) = 0;
@@ -20,7 +20,6 @@ public:
 protected:
     int n_particles;
     int dim;
-    int charge;
 };
 
 #endif	/* POTENTIAL_H */

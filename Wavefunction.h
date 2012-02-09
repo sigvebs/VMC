@@ -12,7 +12,7 @@
 class Wavefunction {
 public:
     Wavefunction();
-    Wavefunction(int, int, double, double, double);
+    Wavefunction(int, int, double, double);
     virtual ~Wavefunction();
     
     // Functions
@@ -20,17 +20,17 @@ public:
     int getDim(){ return dim;};
     double getAlpha(){ return alpha;};
     double getBeta(){ return beta;};
-    double getCharge( ){ return charge; };
-    double evaluate( double** );
     double get_energy( double** );
-    double eval_simple( double** );
-    double eval_jastrow( double** );
+    void set_Jastrow( bool jastrow){ this->jastrow=jastrow;};
+    
+    virtual double evaluate( double** ) = 0;
+    virtual double eval_simple( double** ) = 0;
+    virtual double eval_jastrow( double** ) = 0;
 protected:
     int dim;
     int n_particles;
     double alpha;
     double beta;
-    double charge;
     bool jastrow;
 };
 

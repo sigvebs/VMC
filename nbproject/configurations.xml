@@ -10,12 +10,17 @@
       <itemPath>Potential.h</itemPath>
       <itemPath>QVMC.h</itemPath>
       <itemPath>Wavefunction.h</itemPath>
-      <itemPath>lib.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
                    projectFiles="true">
-      <logicalFolder name="f1" displayName="Light Atoms" projectFiles="true">
+      <itemPath>lib.cpp</itemPath>
+      <itemPath>lib.h</itemPath>
+    </logicalFolder>
+    <logicalFolder name="SourceFiles"
+                   displayName="Source Files"
+                   projectFiles="true">
+      <logicalFolder name="f2" displayName="Light Atoms" projectFiles="true">
         <itemPath>Coulomb_pot.cpp</itemPath>
         <itemPath>Coulomb_pot.h</itemPath>
         <itemPath>Kinetic_electron.cpp</itemPath>
@@ -23,19 +28,18 @@
         <itemPath>electron_interaction.cpp</itemPath>
         <itemPath>electron_interaction.h</itemPath>
       </logicalFolder>
-      <logicalFolder name="f2" displayName="Quantum Dots" projectFiles="true">
+      <logicalFolder name="f1" displayName="Quantum Dots" projectFiles="true">
+        <itemPath>Harmonic_osc.cpp</itemPath>
+        <itemPath>Harmonic_osc.h</itemPath>
+        <itemPath>QD_wavefunction.cpp</itemPath>
+        <itemPath>QD_wavefunction.h</itemPath>
       </logicalFolder>
-    </logicalFolder>
-    <logicalFolder name="SourceFiles"
-                   displayName="Source Files"
-                   projectFiles="true">
       <itemPath>Hamiltonian.cpp</itemPath>
       <itemPath>Interaction.cpp</itemPath>
       <itemPath>Kinetic.cpp</itemPath>
       <itemPath>Potential.cpp</itemPath>
       <itemPath>QVMC.cpp</itemPath>
       <itemPath>Wavefunction.cpp</itemPath>
-      <itemPath>lib.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"

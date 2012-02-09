@@ -16,7 +16,7 @@
  * 
  */
 double Coulomb_pot:: evaluate( double** r ) {
-    double r_single_particle, r_12;
+    double r_single_particle;
     double e_potential = 0;
 
     // contribution from electron-proton potential  
@@ -38,9 +38,8 @@ double Coulomb_pot:: evaluate( double** r ) {
  * DESCRIPTION :        Constructor.
  * 
  */
-Coulomb_pot::Coulomb_pot( int dim, int n_particles, double charge):Potential( dim, n_particles, charge){
-    
-    
+Coulomb_pot::Coulomb_pot( int dim, int n_particles, double charge):Potential( dim, n_particles){
+    this->charge = charge;
 }
 
 Coulomb_pot::~Coulomb_pot() {

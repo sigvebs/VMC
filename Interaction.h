@@ -10,7 +10,7 @@
 
 class Interaction {
 public:
-    Interaction(int dim, int n_particles,  double charge );
+    Interaction(int dim, int n_particles );
     Interaction(const Interaction& orig);
     virtual ~Interaction();
     
@@ -18,8 +18,6 @@ public:
 protected:
     int n_particles;
     int dim;
-    double charge;
-
 };
 
 #endif	/* INTERACTION_H */

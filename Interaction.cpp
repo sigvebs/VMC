@@ -7,10 +7,9 @@
 
 #include "Interaction.h"
 
-Interaction::Interaction( int dim, int n_particles,  double charge ){
+Interaction::Interaction( int dim, int n_particles ){
     this->n_particles = n_particles;
     this->dim = dim;
-    this->charge = charge;
 }
 
 Interaction::Interaction(const Interaction& orig) {

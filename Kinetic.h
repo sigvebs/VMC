@@ -11,7 +11,7 @@
 
 class Kinetic {
 public:
-    Kinetic(int, int, double );
+    Kinetic(int, int);
     Kinetic(const Kinetic& orig);
     virtual ~Kinetic();
     
@@ -20,7 +20,6 @@ public:
 protected:
     int n_particles;
     int dim;
-    double charge;
     Wavefunction* wf;
 };
 

@@ -16,6 +16,7 @@ public:
     virtual ~Coulomb_pot();
     virtual double evaluate( double** );
 private:
+    double charge;
 };
 
 #endif	/* COULOMB_POT_H */
