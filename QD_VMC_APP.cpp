@@ -10,11 +10,11 @@ using namespace std;
 #include <iostream>
 #include <fstream>
 #include <string.h>
-
+#include <mpi.h>
 
 // General imports
 #include "QD_VMC_APP.h"
-//#include "QVMC.h"
+#include "QVMC.h"
 #include "Wavefunction.h"
 #include "Potential.h"
 #include "Coulomb_pot.h"
@@ -43,12 +43,12 @@ QD_VMC_APP::QD_VMC_APP() {
     dim = 2;
     w = 1;
     
-    a_steps = 100;
-    a_start = 0.7;
+    a_steps = 2;
+    a_start = 0.97;
     delta_a = 0.01;
     
-    b_steps = 100;
-    b_start = 0.2;
+    b_steps = 3;
+    b_start = 0.38;
     delta_b = 0.01;
     
     paramset = new QVMC**[a_steps];
@@ -69,7 +69,15 @@ QD_VMC_APP::~QD_VMC_APP() {
  */
 void QD_VMC_APP::QD_run_VMC(){    
     double a, b;
-    long idum = -1;
+    double tot_energy, energy_tmp;
+    long idum = -1;    
+    
+    int numproc, my_rank;
+    MPI_Init( NULL, NULL );
+    MPI_Comm_size( MPI_COMM_WORLD, &numproc );
+    MPI_Comm_rank( MPI_COMM_WORLD, &my_rank );
+ 
+    idum -= my_rank; 
     
     // Initiating Energy classes
     Potential* potential        = new Harmonic_osc( dim, n_particles, w );
@@ -88,12 +96,23 @@ void QD_VMC_APP::QD_run_VMC(){
             kinetic->set_wf(wf);
             paramset[i][j] = new QVMC(ht, wf, mc_cycles, idum);
             paramset[i][j]->solve();
-            cout << i << ", " << j << "\n";
+            
+            // MPI
+            energy_tmp = paramset[i][j]->get_energy();
+            MPI_Allreduce( &energy_tmp , &tot_energy, 1, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD );
+            tot_energy /= numproc;
+            
+            // Printing progress
+            cout << a << ", " << b << " Energy " << tot_energy  << " Energy[][] " << paramset[i][j]->get_energy() << "\n";
+            paramset[i][j]->set_energy(tot_energy);
         }
     }
     
     // Writing results to file
-    QD_write_to_file("VMC.dat");
+    if( my_rank == 0)
+        QD_write_to_file("VMC.dat");
+    
+    MPI_Finalize();
 }
 
  /*******************************************************************

@@ -15,8 +15,8 @@ NM=nm
 CCADMIN=CCadmin
 RANLIB=ranlib
 CC=gcc
-CCC=g++
-CXX=g++
+CCC=mpicxx 
+CXX=mpicxx 
 FC=gfortran
 AS=as
 
@@ -47,8 +47,8 @@ OBJECTFILES= \
 	${OBJECTDIR}/QVMC.o \
 	${OBJECTDIR}/QD_wavefunction.o \
 	${OBJECTDIR}/lib.o \
-	${OBJECTDIR}/LA_VMC_APP.o \
 	${OBJECTDIR}/electron_interaction.o \
+	${OBJECTDIR}/LA_VMC_APP.o \
 	${OBJECTDIR}/QD_VMC_APP.o
 
 
@@ -141,15 +141,15 @@ ${OBJECTDIR}/lib.o: lib.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/lib.o lib.cpp
 
-${OBJECTDIR}/LA_VMC_APP.o: LA_VMC_APP.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/LA_VMC_APP.o LA_VMC_APP.cpp
-
 ${OBJECTDIR}/electron_interaction.o: electron_interaction.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/electron_interaction.o electron_interaction.cpp
+
+${OBJECTDIR}/LA_VMC_APP.o: LA_VMC_APP.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/LA_VMC_APP.o LA_VMC_APP.cpp
 
 ${OBJECTDIR}/QD_VMC_APP.o: QD_VMC_APP.cpp 
 	${MKDIR} -p ${OBJECTDIR}

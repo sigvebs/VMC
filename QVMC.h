@@ -14,26 +14,42 @@
 class QVMC {
 public:
     QVMC();
-    QVMC( Hamiltonian*, Wavefunction*, int, long );
+    QVMC(Hamiltonian*, Wavefunction*, int, long);
     QVMC(const QVMC& orig);
     virtual ~QVMC();
-    
+
     // Functions
     void solve();
-    double optimal_step_length( );
-    double difference( double );
-    void mc_sampling( int, double, int&, double& , double& );
-    double get_energy(){ return energy;};
-    double get_energy_sq(){ return energy_sq;};
-    double get_accepted(){ return accepted;};
-    double get_step_length(){ return step_length;};
+    double optimal_step_length();
+    double difference(double);
+    void mc_sampling(int, double, int&, double&, double&);
+
+    double get_energy() {
+        return energy;
+    };
+
+    double get_energy_sq() {
+        return energy_sq;
+    };
+
+    double get_accepted() {
+        return accepted;
+    };
+
+    double get_step_length() {
+        return step_length;
+    };
+    
+    void set_energy( double energy ) {
+        this->energy = energy;
+    };
 protected:
     Wavefunction* wf;
     Hamiltonian* ht;
     int mc_cycles;
     long idum;
     int thermalization;
-    
+
     double energy;
     double energy_sq;
     double accepted;

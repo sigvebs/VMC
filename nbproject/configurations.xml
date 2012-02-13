@@ -68,6 +68,9 @@
         <compilerSet>default</compilerSet>
       </toolsSet>
       <compileType>
+        <ccTool>
+          <commandlineTool>mpicxx </commandlineTool>
+        </ccTool>
       </compileType>
     </conf>
     <conf name="Release" type="1">
