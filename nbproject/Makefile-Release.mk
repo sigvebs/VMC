@@ -34,6 +34,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/QD_kinetic.o \
 	${OBJECTDIR}/Interaction.o \
 	${OBJECTDIR}/Coulomb_pot.o \
 	${OBJECTDIR}/Harmonic_osc.o \
@@ -46,7 +47,9 @@ OBJECTFILES= \
 	${OBJECTDIR}/QVMC.o \
 	${OBJECTDIR}/QD_wavefunction.o \
 	${OBJECTDIR}/lib.o \
-	${OBJECTDIR}/electron_interaction.o
+	${OBJECTDIR}/LA_VMC_APP.o \
+	${OBJECTDIR}/electron_interaction.o \
+	${OBJECTDIR}/QD_VMC_APP.o
 
 
 # C Compiler Flags
@@ -72,6 +75,11 @@ LDLIBSOPTIONS=
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/vmc: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/vmc ${OBJECTFILES} ${LDLIBSOPTIONS} 
+
+${OBJECTDIR}/QD_kinetic.o: QD_kinetic.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/QD_kinetic.o QD_kinetic.cpp
 
 ${OBJECTDIR}/Interaction.o: Interaction.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -133,10 +141,20 @@ ${OBJECTDIR}/lib.o: lib.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/lib.o lib.cpp
 
+${OBJECTDIR}/LA_VMC_APP.o: LA_VMC_APP.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/LA_VMC_APP.o LA_VMC_APP.cpp
+
 ${OBJECTDIR}/electron_interaction.o: electron_interaction.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/electron_interaction.o electron_interaction.cpp
+
+${OBJECTDIR}/QD_VMC_APP.o: QD_VMC_APP.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/QD_VMC_APP.o QD_VMC_APP.cpp
 
 # Subprojects
 .build-subprojects:

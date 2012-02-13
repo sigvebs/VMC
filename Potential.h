@@ -12,7 +12,6 @@ class Potential {
 public:
     Potential();
     Potential( int, int );
-    Potential(const Potential& orig);
     
     virtual double evaluate(double**) = 0;
     

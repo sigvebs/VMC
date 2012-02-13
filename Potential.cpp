@@ -12,10 +12,6 @@ Potential::Potential( int dim, int n_particles ){
     this->dim = dim;
 }
 
-Potential::Potential(const Potential& orig) {
-}
-
-
 Potential::~Potential() {
 }
 

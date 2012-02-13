@@ -15,6 +15,13 @@ QD_wavefunction::QD_wavefunction(int dim, int n_particles, double alpha, double 
 QD_wavefunction::~QD_wavefunction() {
 }
 
+/*******************************************************************
+ * 
+ * NAME :               evaluate( double** r)
+ *
+ * DESCRIPTION :        Returns the value of the total WF evaluated in r. 
+ * 
+ */
 double QD_wavefunction::evaluate( double** r ){
     double psi;
     psi = eval_simple(r);
