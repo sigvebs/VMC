@@ -70,6 +70,7 @@
       <compileType>
         <ccTool>
           <commandlineTool>mpicxx </commandlineTool>
+          <commandLine>-o3 -DMPICH_IGNORE_CXX_SEEK</commandLine>
         </ccTool>
       </compileType>
     </conf>
@@ -84,6 +85,7 @@
         </cTool>
         <ccTool>
           <developmentMode>5</developmentMode>
+          <commandlineTool>mpicxx </commandlineTool>
         </ccTool>
         <fortranCompilerTool>
           <developmentMode>5</developmentMode>
@@ -91,6 +93,18 @@
         <asmTool>
           <developmentMode>5</developmentMode>
         </asmTool>
+      </compileType>
+    </conf>
+    <conf name="Profiler" type="1">
+      <toolsSet>
+        <remote-sources-mode>LOCAL_SOURCES</remote-sources-mode>
+        <compilerSet>default</compilerSet>
+      </toolsSet>
+      <compileType>
+        <ccTool>
+          <commandlineTool>mpicxx </commandlineTool>
+          <commandLine>-DMPICH_IGNORE_CXX_SEEK -pg</commandLine>
+        </ccTool>
       </compileType>
     </conf>
   </confs>

@@ -9,12 +9,12 @@
 #define	HARMONIC_OSC_H
 #include "Potential.h"
 
-class Harmonic_osc: public Potential {
+class Harmonic_osc : public Potential {
 public:
     Harmonic_osc(int, int, double);
     virtual ~Harmonic_osc();
-    
-    virtual double evaluate( double** );
+
+    virtual double evaluate(double**);
 private:
     double w;
 };

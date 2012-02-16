@@ -38,24 +38,23 @@ using namespace std;
  */
 QD_VMC_APP::QD_VMC_APP() {
     // Initiating variables - later this should be imported from QD_param.ini
-    mc_cycles = (int)1e6;
+    mc_cycles = (int) 1e6;
     n_particles = 2;
     dim = 2;
     w = 1;
-    
-    a_steps = 2;
-    a_start = 0.97;
+
+    a_steps = 5;
+    a_start = 0.95;
     delta_a = 0.01;
-    
-    b_steps = 3;
-    b_start = 0.38;
+
+    b_steps = 5;
+    b_start = 0.46;
     delta_b = 0.01;
-    
+
     paramset = new QVMC**[a_steps];
-    
+
     QD_run_VMC();
 }
-
 
 QD_VMC_APP::~QD_VMC_APP() {
 }
@@ -67,67 +66,71 @@ QD_VMC_APP::~QD_VMC_APP() {
  * DESCRIPTION :        In progress
  * 
  */
-void QD_VMC_APP::QD_run_VMC(){    
+void QD_VMC_APP::QD_run_VMC() {
     double a, b;
     double tot_energy, energy_tmp;
-    long idum = -1;    
-    
+    long idum = -1;
+
+    // MPI init
     int numproc, my_rank;
-    MPI_Init( NULL, NULL );
-    MPI_Comm_size( MPI_COMM_WORLD, &numproc );
-    MPI_Comm_rank( MPI_COMM_WORLD, &my_rank );
- 
-    idum -= my_rank; 
-    
+    MPI_Init(NULL, NULL);
+    MPI_Comm_size(MPI_COMM_WORLD, &numproc);
+    MPI_Comm_rank(MPI_COMM_WORLD, &my_rank);
+
+    idum -= my_rank;
+    mc_cycles /= numproc;
+
     // Initiating Energy classes
-    Potential* potential        = new Harmonic_osc( dim, n_particles, w );
-    Interaction* interaction    = new electron_interaction( dim, n_particles );
-    Kinetic* kinetic            = new QD_kinetic(dim, n_particles, w );
-    Hamiltonian* ht             = new Hamiltonian( potential, interaction, kinetic );
-    
+    Potential* potential = new Harmonic_osc(dim, n_particles, w);
+    Interaction* interaction = new electron_interaction(dim, n_particles);
+    Kinetic* kinetic = new QD_kinetic(dim, n_particles, w);
+    Hamiltonian* ht = new Hamiltonian(potential, interaction, kinetic);
+
     // Running over all variational parameters
     for (int i = 0; i < a_steps; i++) {
         a = a_start + i*delta_a;
         paramset[i] = new QVMC*[b_steps];
         for (int j = 0; j < b_steps; j++) {
             b = b_start + j*delta_b;
-            
+
             Wavefunction* wf = new QD_wavefunction(dim, n_particles, a, b, w);
             kinetic->set_wf(wf);
             paramset[i][j] = new QVMC(ht, wf, mc_cycles, idum);
             paramset[i][j]->solve();
-            
+
             // MPI
             energy_tmp = paramset[i][j]->get_energy();
-            MPI_Allreduce( &energy_tmp , &tot_energy, 1, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD );
+            MPI_Allreduce(&energy_tmp, &tot_energy, 1, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
             tot_energy /= numproc;
-            
+
             // Printing progress
-            cout << a << ", " << b << " Energy " << tot_energy  << " Energy[][] " << paramset[i][j]->get_energy() << "\n";
+            if (my_rank == 0) {
+                cout << a << ", " << b << " Energy " << tot_energy << " Energy[][] " << paramset[i][j]->get_energy() << "\n";
+            }
             paramset[i][j]->set_energy(tot_energy);
         }
     }
-    
+
     // Writing results to file
-    if( my_rank == 0)
-        QD_write_to_file("VMC.dat");
-    
+    if (my_rank == 0)
+        QD_write_to_file("VMC_prf.dat");
+
     MPI_Finalize();
 }
 
- /*******************************************************************
+/*******************************************************************
  * 
  * NAME :               QD_write_to_file( char* name )
  *
  * DESCRIPTION :        In progress
  * 
  */
-void QD_VMC_APP::QD_write_to_file( char* name ) {
+void QD_VMC_APP::QD_write_to_file(char* name) {
     double a, b;
     double energy, energy_sq;
 
     ofstream outStream;
-    outStream.open( name );
+    outStream.open(name);
     /**
     // Defining datastructure using the VTK file structure
     outStream << "# vtk DataFile Version 2.0\n";
@@ -148,7 +151,7 @@ void QD_VMC_APP::QD_write_to_file( char* name ) {
     }
     outStream << "Z_COORDINATES 1 double\n";
     outStream << "1\n";
-**/
+     **/
 
     // Running over all variational parameters
     for (int i = 0; i < a_steps; i++) {
@@ -161,5 +164,5 @@ void QD_VMC_APP::QD_write_to_file( char* name ) {
             outStream << a << " " << b << " " << energy << " " << energy_sq << "\n";
         }
     }
-    outStream.close();  
+    outStream.close();
 }

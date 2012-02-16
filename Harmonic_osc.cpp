@@ -7,14 +7,14 @@
 
 #include "Harmonic_osc.h"
 
-Harmonic_osc::Harmonic_osc( int dim, int n_particles, double w ):Potential( dim, n_particles ) {
+Harmonic_osc::Harmonic_osc(int dim, int n_particles, double w) : Potential(dim, n_particles) {
     this->w = w;
 }
 
 Harmonic_osc::~Harmonic_osc() {
 }
 
-double Harmonic_osc:: evaluate( double** r ) {
+double Harmonic_osc::evaluate(double** r) {
     double r_single_particle;
     double e_potential = 0;
 
@@ -26,5 +26,5 @@ double Harmonic_osc:: evaluate( double** r ) {
         e_potential += r_single_particle;
     }
 
-    return 0.5*w*w*e_potential;
+    return 0.5 * w * w*e_potential;
 }
