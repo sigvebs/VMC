@@ -16,7 +16,7 @@ public:
     virtual ~QD_VMC_APP();
     
     void QD_run_VMC();
-private:    
+protected:    
     // Functions
     void QD_write_to_file( char* );
     

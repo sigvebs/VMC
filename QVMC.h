@@ -19,10 +19,10 @@ public:
     virtual ~QVMC();
 
     // Functions
-    void solve();
-    double optimal_step_length();
-    double difference(double);
-    void mc_sampling(int, double, int&, double&, double&);
+    virtual double optimal_step_length() = 0;
+    virtual double difference(double) = 0;
+    virtual void solve() = 0;
+    virtual void mc_sampling(int, double, int&, double&, double&) = 0;
 
     double get_energy() {
         return energy;
@@ -39,8 +39,8 @@ public:
     double get_step_length() {
         return step_length;
     };
-    
-    void set_energy( double energy ) {
+
+    void set_energy(double energy) {
         this->energy = energy;
     };
 protected:

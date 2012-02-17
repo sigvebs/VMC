@@ -13,8 +13,6 @@ using namespace std;
 #include <mpi.h>
 
 // General imports
-#include "QD_VMC_APP.h"
-#include "QVMC.h"
 #include "Wavefunction.h"
 #include "Potential.h"
 #include "Coulomb_pot.h"
@@ -25,9 +23,12 @@ using namespace std;
 #include "Kinetic_electron.h"
 
 // QD imports
+#include "QD_VMC_APP.h"
+#include "QVMC.h"
 #include "QD_wavefunction.h"
 #include "Harmonic_osc.h"
 #include "QD_kinetic.h"
+#include "QD_MC_Brute_Force.h"
 
 /*******************************************************************
  * 
@@ -43,16 +44,16 @@ QD_VMC_APP::QD_VMC_APP() {
     dim = 2;
     w = 1;
 
-    a_steps = 5;
-    a_start = 0.95;
+    a_steps = 1;
+    a_start = 0.98;
     delta_a = 0.01;
 
-    b_steps = 5;
-    b_start = 0.46;
+    b_steps = 1;
+    b_start = 0.48;
     delta_b = 0.01;
 
     paramset = new QVMC**[a_steps];
-
+    
     QD_run_VMC();
 }
 
@@ -95,7 +96,7 @@ void QD_VMC_APP::QD_run_VMC() {
 
             Wavefunction* wf = new QD_wavefunction(dim, n_particles, a, b, w);
             kinetic->set_wf(wf);
-            paramset[i][j] = new QVMC(ht, wf, mc_cycles, idum);
+            paramset[i][j] = new QD_MC_Brute_Force(ht, wf, mc_cycles, idum);
             paramset[i][j]->solve();
 
             // MPI
