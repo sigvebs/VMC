@@ -42,10 +42,12 @@ OBJECTFILES= \
 	${OBJECTDIR}/Potential.o \
 	${OBJECTDIR}/main.o \
 	${OBJECTDIR}/Kinetic_electron.o \
+	${OBJECTDIR}/QD_MC_Importance_Sampling.o \
 	${OBJECTDIR}/Kinetic.o \
 	${OBJECTDIR}/Hamiltonian.o \
 	${OBJECTDIR}/QVMC.o \
 	${OBJECTDIR}/QD_wavefunction.o \
+	${OBJECTDIR}/QD_MC_Brute_Force.o \
 	${OBJECTDIR}/lib.o \
 	${OBJECTDIR}/electron_interaction.o \
 	${OBJECTDIR}/LA_VMC_APP.o \
@@ -116,6 +118,11 @@ ${OBJECTDIR}/Kinetic_electron.o: Kinetic_electron.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/Kinetic_electron.o Kinetic_electron.cpp
 
+${OBJECTDIR}/QD_MC_Importance_Sampling.o: QD_MC_Importance_Sampling.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/QD_MC_Importance_Sampling.o QD_MC_Importance_Sampling.cpp
+
 ${OBJECTDIR}/Kinetic.o: Kinetic.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
@@ -135,6 +142,11 @@ ${OBJECTDIR}/QD_wavefunction.o: QD_wavefunction.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/QD_wavefunction.o QD_wavefunction.cpp
+
+${OBJECTDIR}/QD_MC_Brute_Force.o: QD_MC_Brute_Force.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/QD_MC_Brute_Force.o QD_MC_Brute_Force.cpp
 
 ${OBJECTDIR}/lib.o: lib.cpp 
 	${MKDIR} -p ${OBJECTDIR}

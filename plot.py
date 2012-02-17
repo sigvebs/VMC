@@ -28,13 +28,18 @@ for i in range( a_steps ):
 
 figure(1, size=(600, 400), fgcolor=(1, 1, 1), bgcolor=(0.5, 0.5, 0.5))
 
-s = surf(x, y,f, colormap='Spectral');
+# Sur
+s = surf(x,y,f, colormap='Spectral' );
+s_w = surf(x,y,f, representation='wireframe',  color=(.2, .2, .2), line_width=0.6, transparent=True );
+
 outline(s, color=(.7, .7, .7))
-axes(s, color=(.7, .7, .7), xlabel=r'$\alpha$', ylabel='Beta', zlabel='E');
+axes(s, color=(.7, .7, .7), xlabel=r'alpha', ylabel='Beta', zlabel='E', nb_labels=4);
 
 
-title('VMC');
+colorbar(title='Energy', orientation='vertical', nb_labels=4)
 
+#title('VMC');
+show();
 raw_input("Hei pa deg:");
 
 # To run:

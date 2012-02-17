@@ -22,7 +22,7 @@ QD_kinetic::~QD_kinetic() {
  * 
  */
 double QD_kinetic::evaluate( double** r ){
-#if 0
+#if 1
     double a, b; // TMP
     double r1, r2, r12, r1_dot_r2;
     double e_kin;

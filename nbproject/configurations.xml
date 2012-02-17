@@ -31,14 +31,20 @@
         <itemPath>electron_interaction.h</itemPath>
       </logicalFolder>
       <logicalFolder name="f1" displayName="Quantum Dots" projectFiles="true">
+        <logicalFolder name="f1" displayName="Headers" projectFiles="true">
+          <itemPath>Harmonic_osc.h</itemPath>
+          <itemPath>QD_MC_Brute_Force.h</itemPath>
+          <itemPath>QD_MC_Importance_Sampling.h</itemPath>
+          <itemPath>QD_VMC_APP.h</itemPath>
+          <itemPath>QD_kinetic.h</itemPath>
+          <itemPath>QD_wavefunction.h</itemPath>
+        </logicalFolder>
         <itemPath>Harmonic_osc.cpp</itemPath>
-        <itemPath>Harmonic_osc.h</itemPath>
+        <itemPath>QD_MC_Brute_Force.cpp</itemPath>
+        <itemPath>QD_MC_Importance_Sampling.cpp</itemPath>
         <itemPath>QD_VMC_APP.cpp</itemPath>
-        <itemPath>QD_VMC_APP.h</itemPath>
         <itemPath>QD_kinetic.cpp</itemPath>
-        <itemPath>QD_kinetic.h</itemPath>
         <itemPath>QD_wavefunction.cpp</itemPath>
-        <itemPath>QD_wavefunction.h</itemPath>
       </logicalFolder>
       <itemPath>Hamiltonian.cpp</itemPath>
       <itemPath>Interaction.cpp</itemPath>
