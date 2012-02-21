@@ -5,16 +5,16 @@
  * Created on 9. februar 2012, 09:03
  */
 
-#include "Harmonic_osc.h"
+#include "QD_Harmonic_osc.h"
 
-Harmonic_osc::Harmonic_osc(int dim, int n_particles, double w) : Potential(dim, n_particles) {
+QD_Harmonic_osc::QD_Harmonic_osc(int dim, int n_particles, double w) : Potential(dim, n_particles) {
     this->w = w;
 }
 
-Harmonic_osc::~Harmonic_osc() {
+QD_Harmonic_osc::~QD_Harmonic_osc() {
 }
 
-double Harmonic_osc::evaluate(double** r) {
+double QD_Harmonic_osc::evaluate(double** r) {
     double r_single_particle;
     double e_potential = 0;
 

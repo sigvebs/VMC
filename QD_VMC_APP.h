@@ -30,6 +30,10 @@ protected:
     double a_start, delta_a;
     int b_steps;
     double b_start, delta_b;
+    
+    int sampling;
+    bool write_to_file;
+    bool jastrow;
 };
 
 #endif	/* QD_VMC_APP_H */

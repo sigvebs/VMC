@@ -20,6 +20,22 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
+      <logicalFolder name="f1" displayName="2 Quantum Dots " projectFiles="true">
+        <logicalFolder name="f1" displayName="Headers" projectFiles="true">
+          <itemPath>QD_Harmonic_osc.h</itemPath>
+          <itemPath>QD_MC_Brute_Force.h</itemPath>
+          <itemPath>QD_MC_Importance_Sampling.h</itemPath>
+          <itemPath>QD_VMC_APP.h</itemPath>
+          <itemPath>QD_kinetic.h</itemPath>
+          <itemPath>QD_wavefunction.h</itemPath>
+        </logicalFolder>
+        <itemPath>QD_Harmonic_osc.cpp</itemPath>
+        <itemPath>QD_MC_Brute_Force.cpp</itemPath>
+        <itemPath>QD_MC_Importance_Sampling.cpp</itemPath>
+        <itemPath>QD_VMC_APP.cpp</itemPath>
+        <itemPath>QD_kinetic.cpp</itemPath>
+        <itemPath>QD_wavefunction.cpp</itemPath>
+      </logicalFolder>
       <logicalFolder name="f2" displayName="Light Atoms" projectFiles="true">
         <itemPath>Coulomb_pot.cpp</itemPath>
         <itemPath>Coulomb_pot.h</itemPath>
@@ -29,22 +45,6 @@
         <itemPath>LA_VMC_APP.h</itemPath>
         <itemPath>electron_interaction.cpp</itemPath>
         <itemPath>electron_interaction.h</itemPath>
-      </logicalFolder>
-      <logicalFolder name="f1" displayName="Quantum Dots" projectFiles="true">
-        <logicalFolder name="f1" displayName="Headers" projectFiles="true">
-          <itemPath>Harmonic_osc.h</itemPath>
-          <itemPath>QD_MC_Brute_Force.h</itemPath>
-          <itemPath>QD_MC_Importance_Sampling.h</itemPath>
-          <itemPath>QD_VMC_APP.h</itemPath>
-          <itemPath>QD_kinetic.h</itemPath>
-          <itemPath>QD_wavefunction.h</itemPath>
-        </logicalFolder>
-        <itemPath>Harmonic_osc.cpp</itemPath>
-        <itemPath>QD_MC_Brute_Force.cpp</itemPath>
-        <itemPath>QD_MC_Importance_Sampling.cpp</itemPath>
-        <itemPath>QD_VMC_APP.cpp</itemPath>
-        <itemPath>QD_kinetic.cpp</itemPath>
-        <itemPath>QD_wavefunction.cpp</itemPath>
       </logicalFolder>
       <itemPath>Hamiltonian.cpp</itemPath>
       <itemPath>Interaction.cpp</itemPath>
@@ -76,7 +76,7 @@
       <compileType>
         <ccTool>
           <commandlineTool>mpicxx </commandlineTool>
-          <commandLine>-o3 -DMPICH_IGNORE_CXX_SEEK</commandLine>
+          <commandLine>-o3 -DMPICH_IGNORE_CXX_SEEK -Werror</commandLine>
         </ccTool>
       </compileType>
     </conf>

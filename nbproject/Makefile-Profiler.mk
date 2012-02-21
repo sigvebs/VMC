@@ -37,7 +37,6 @@ OBJECTFILES= \
 	${OBJECTDIR}/QD_kinetic.o \
 	${OBJECTDIR}/Interaction.o \
 	${OBJECTDIR}/Coulomb_pot.o \
-	${OBJECTDIR}/Harmonic_osc.o \
 	${OBJECTDIR}/Wavefunction.o \
 	${OBJECTDIR}/Potential.o \
 	${OBJECTDIR}/main.o \
@@ -45,8 +44,9 @@ OBJECTFILES= \
 	${OBJECTDIR}/QD_MC_Importance_Sampling.o \
 	${OBJECTDIR}/Kinetic.o \
 	${OBJECTDIR}/Hamiltonian.o \
-	${OBJECTDIR}/QVMC.o \
+	${OBJECTDIR}/QD_Harmonic_osc.o \
 	${OBJECTDIR}/QD_wavefunction.o \
+	${OBJECTDIR}/QVMC.o \
 	${OBJECTDIR}/QD_MC_Brute_Force.o \
 	${OBJECTDIR}/lib.o \
 	${OBJECTDIR}/electron_interaction.o \
@@ -93,11 +93,6 @@ ${OBJECTDIR}/Coulomb_pot.o: Coulomb_pot.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Coulomb_pot.o Coulomb_pot.cpp
 
-${OBJECTDIR}/Harmonic_osc.o: Harmonic_osc.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Harmonic_osc.o Harmonic_osc.cpp
-
 ${OBJECTDIR}/Wavefunction.o: Wavefunction.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
@@ -133,15 +128,20 @@ ${OBJECTDIR}/Hamiltonian.o: Hamiltonian.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Hamiltonian.o Hamiltonian.cpp
 
-${OBJECTDIR}/QVMC.o: QVMC.cpp 
+${OBJECTDIR}/QD_Harmonic_osc.o: QD_Harmonic_osc.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/QVMC.o QVMC.cpp
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/QD_Harmonic_osc.o QD_Harmonic_osc.cpp
 
 ${OBJECTDIR}/QD_wavefunction.o: QD_wavefunction.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/QD_wavefunction.o QD_wavefunction.cpp
+
+${OBJECTDIR}/QVMC.o: QVMC.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/QVMC.o QVMC.cpp
 
 ${OBJECTDIR}/QD_MC_Brute_Force.o: QD_MC_Brute_Force.cpp 
 	${MKDIR} -p ${OBJECTDIR}

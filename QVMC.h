@@ -19,10 +19,7 @@ public:
     virtual ~QVMC();
 
     // Functions
-    virtual double optimal_step_length() = 0;
-    virtual double difference(double) = 0;
     virtual void solve() = 0;
-    virtual void mc_sampling(int, double, int&, double&, double&) = 0;
 
     double get_energy() {
         return energy;
@@ -36,12 +33,16 @@ public:
         return accepted;
     };
 
-    double get_step_length() {
-        return step_length;
-    };
-
     void set_energy(double energy) {
         this->energy = energy;
+    };
+
+    void set_accepted(double accepted) {
+        this->accepted = accepted;
+    };
+
+    void set_energy_sq(double energy_sq) {
+        this->energy_sq = energy_sq;
     };
 protected:
     Wavefunction* wf;
@@ -53,7 +54,6 @@ protected:
     double energy;
     double energy_sq;
     double accepted;
-    double step_length;
 };
 
 #endif	/* QVMC_H */

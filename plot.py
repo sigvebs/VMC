@@ -1,5 +1,6 @@
 import numpy
 from mayavi.mlab import *
+"""
 a_steps = 50;
 a_start = 0.75;
 delta_a = 0.01;
@@ -7,8 +8,18 @@ delta_a = 0.01;
 b_steps = 50;
 b_start = 0.1;
 delta_b = 0.01;
+"""
 
-a, b, energy = numpy.loadtxt('VMC.dat', usecols=[0,1,2], unpack=True)
+a_start = 0.6;
+b_start = 0.4;
+    
+a_steps = 20;
+delta_a = 0.01;
+
+b_steps = 20;
+delta_b = 0.01;
+
+a, b, energy = numpy.loadtxt('dist/Debug/GNU-Linux-x86/VMC_prf.dat', usecols=[0,1,2], unpack=True)
 c = zeros(a_steps)
 d = zeros(b_steps)
 

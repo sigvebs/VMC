@@ -9,10 +9,10 @@
 #define	HARMONIC_OSC_H
 #include "Potential.h"
 
-class Harmonic_osc : public Potential {
+class QD_Harmonic_osc : public Potential {
 public:
-    Harmonic_osc(int, int, double);
-    virtual ~Harmonic_osc();
+    QD_Harmonic_osc(int, int, double);
+    virtual ~QD_Harmonic_osc();
 
     virtual double evaluate(double**);
 private:

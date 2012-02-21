@@ -46,8 +46,7 @@ double Hamiltonian::get_energy(double** r) {
  * 
  */
 double Hamiltonian::get_numerical_energy(double** r) {
-    // the step length and its squared inverse for the second derivative 
-    double e_pot, e_int, e_kin = 0;
+    double e_pot, e_int, e_kin;
 
     e_pot = potential->evaluate(r);
     e_int = interaction->evaluate(r);

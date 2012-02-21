@@ -92,13 +92,14 @@ void QD_MC_Brute_Force::mc_sampling(int cycles, double step_length, int& accepte
         wf_new = wf->evaluate(r_new);
 
         // Metropolis test 
-        if (ran2(&idum) <= pow(wf_new, 2) / pow(wf_old, 2)) {
+        if (ran2(&idum) <= wf_new * wf_new / wf_old / wf_old) {
             for (i = 0; i < n_particles; i++) {
                 for (j = 0; j < dim; j++)
                     r_old[i][j] = r_new[i][j];
             }
             wf_old = wf_new;
-            accepted++;
+            if (sample > thermalization) 
+                accepted++;
         }
 
         // Computing the local energy
@@ -111,7 +112,7 @@ void QD_MC_Brute_Force::mc_sampling(int cycles, double step_length, int& accepte
 
     // Computing the total energy
     total_energy = loc_energy / cycles;
-    total_energy_sq = loc_energy_sq / cycles - total_energy*total_energy;
+    total_energy_sq = loc_energy_sq / cycles;
 
     // Freeing memory
     free_matrix((void**) r_old);

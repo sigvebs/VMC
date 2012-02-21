@@ -15,11 +15,12 @@ public:
     QD_MC_Brute_Force(Hamiltonian*, Wavefunction*, int, long);
     virtual ~QD_MC_Brute_Force();
 
-    virtual void mc_sampling(int, double, int&, double&, double&);
+    void mc_sampling(int, double, int&, double&, double&);
     virtual void solve();
-    virtual double optimal_step_length();
-    virtual double difference(double);
+    double optimal_step_length();
+    double difference(double);
 protected:
+    double step_length;
 };
 
 #endif	/* QD_MC_BRUTE_FORCE_H */
