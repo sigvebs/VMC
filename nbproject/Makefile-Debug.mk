@@ -43,6 +43,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/Kinetic_electron.o \
 	${OBJECTDIR}/Kinetic.o \
 	${OBJECTDIR}/Hamiltonian.o \
+	${OBJECTDIR}/QD_Jastrow.o \
 	${OBJECTDIR}/MC_Brute_Force.o \
 	${OBJECTDIR}/QD_Harmonic_osc.o \
 	${OBJECTDIR}/QD_wavefunction.o \
@@ -51,6 +52,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/lib.o \
 	${OBJECTDIR}/electron_interaction.o \
 	${OBJECTDIR}/LA_VMC_APP.o \
+	${OBJECTDIR}/Jastrow.o \
 	${OBJECTDIR}/includes/ini.o \
 	${OBJECTDIR}/QD_VMC_APP.o
 
@@ -124,6 +126,11 @@ ${OBJECTDIR}/Hamiltonian.o: Hamiltonian.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Hamiltonian.o Hamiltonian.cpp
 
+${OBJECTDIR}/QD_Jastrow.o: QD_Jastrow.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/QD_Jastrow.o QD_Jastrow.cpp
+
 ${OBJECTDIR}/MC_Brute_Force.o: MC_Brute_Force.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
@@ -163,6 +170,11 @@ ${OBJECTDIR}/LA_VMC_APP.o: LA_VMC_APP.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/LA_VMC_APP.o LA_VMC_APP.cpp
+
+${OBJECTDIR}/Jastrow.o: Jastrow.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Jastrow.o Jastrow.cpp
 
 ${OBJECTDIR}/includes/ini.o: includes/ini.cpp 
 	${MKDIR} -p ${OBJECTDIR}/includes

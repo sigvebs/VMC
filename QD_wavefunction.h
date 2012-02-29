@@ -12,14 +12,9 @@
 class QD_wavefunction: public Wavefunction {
 public:
     QD_wavefunction( int, int, double, double, double, bool );
-    virtual ~QD_wavefunction();
     
-    virtual double evaluate( double** );
     virtual double eval_simple( double** );
-    virtual double eval_jastrow( double** );
     virtual double get_simple_gradient( double**, int, int );
-    virtual double get_gradient_C( double**, int, int );
-    virtual void q_force( double**, double** );
 private:
     double w;
 };
