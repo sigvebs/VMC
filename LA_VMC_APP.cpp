@@ -36,12 +36,12 @@ LA_VMC_APP::~LA_VMC_APP() {
 
  void LA_VMC_APP::LA_run_VMC(){
     long idum = -1;
-    
+    bool jastrow = false;
     Potential* potential = new Coulomb_pot( dim, n_particles, charge );
     Kinetic* kinetic = new Kinetic_electron(dim, n_particles );
     Interaction* interaction    = new electron_interaction( dim, n_particles );
     
-    Hamiltonian* ht = new Hamiltonian( potential, interaction, kinetic );
+    Hamiltonian* ht = new Hamiltonian( potential, interaction, kinetic, jastrow );
     
     // Not working
     /*

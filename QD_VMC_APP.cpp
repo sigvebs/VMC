@@ -13,6 +13,7 @@ using namespace std;
 #include <mpi.h>
 #include <math.h>
 #include <sys/time.h>
+#include "includes/ini.h"
 
 // General imports
 #include "Wavefunction.h"
@@ -30,49 +31,9 @@ using namespace std;
 #include "QD_wavefunction.h"
 #include "QD_Harmonic_osc.h"
 #include "QD_kinetic.h"
-#include "QD_MC_Brute_Force.h"
-#include "QD_MC_Importance_Sampling.h"
+#include "MC_Brute_Force.h"
+#include "MC_Importance_Sampling.h"
 
-/*******************************************************************
- * 
- * NAME :               QD_VMC_APP( )
- *
- * DESCRIPTION :        Constructor
- * 
- */
-QD_VMC_APP::QD_VMC_APP() {
-    // Initiating variables - later this should be imported from QD_param.ini
-    mc_cycles = (int) 1e6;
-    n_particles = 2;
-    dim = 2;
-    w = 1.0;
-
-#if 1
-    a_start = 0.987;
-    b_start = 0.398;
-#else
-    a_start = 1.8;
-    b_start = 0.4;
-#endif
-
-    a_steps = 1;
-    delta_a = 0.02;
-
-    b_steps = 1;
-    delta_b = 0.02;
-
-    // 0 = Brute Force, 1 = Importance Sampling
-    sampling = 1;
-
-    jastrow = true;
-
-    paramset = new QVMC**[a_steps];
-    write_to_file = false;
-    QD_run_VMC();
-}
-
-QD_VMC_APP::~QD_VMC_APP() {
-}
 
 /*******************************************************************
  * 
@@ -99,8 +60,8 @@ void QD_VMC_APP::QD_run_VMC() {
     Potential* potential = new QD_Harmonic_osc(dim, n_particles, w);
     Interaction* interaction = new electron_interaction(dim, n_particles);
     Kinetic* kinetic = new QD_kinetic(dim, n_particles, w);
-    Hamiltonian* ht = new Hamiltonian(potential, interaction, kinetic);
-    
+    Hamiltonian* ht = new Hamiltonian(potential, interaction, kinetic, jastrow);
+
     // Running over all variational parameters
     for (int i = 0; i < a_steps; i++) {
         a = a_start + i*delta_a;
@@ -112,9 +73,9 @@ void QD_VMC_APP::QD_run_VMC() {
             kinetic->set_wf(wf);
 
             if (sampling == 0)
-                paramset[i][j] = new QD_MC_Brute_Force(ht, wf, mc_cycles, idum);
+                paramset[i][j] = new MC_Brute_Force(ht, wf, mc_cycles, idum);
             else if (sampling == 1)
-                paramset[i][j] = new QD_MC_Importance_Sampling(ht, wf, mc_cycles, idum);
+                paramset[i][j] = new MC_Importance_Sampling(ht, wf, mc_cycles, idum);
 
             paramset[i][j]->solve();
 
@@ -146,7 +107,7 @@ void QD_VMC_APP::QD_run_VMC() {
     // Writing results to file
     if (write_to_file) {
         if (my_rank == 0)
-            QD_write_to_file("VMC_prf.dat");
+            QD_write_to_file();
     }
 
     MPI_Finalize();
@@ -159,12 +120,12 @@ void QD_VMC_APP::QD_run_VMC() {
  * DESCRIPTION :        In progress
  * 
  */
-void QD_VMC_APP::QD_write_to_file(char* name) {
+void QD_VMC_APP::QD_write_to_file() {
     double a, b;
     double energy, energy_sq;
 
     ofstream outStream;
-    outStream.open(name);
+    outStream.open((const char*)&file_name[0]);
 
     // Running over all variational parameters
     for (int i = 0; i < a_steps; i++) {
@@ -178,4 +139,42 @@ void QD_VMC_APP::QD_write_to_file(char* name) {
         }
     }
     outStream.close();
+}
+/*******************************************************************
+ * 
+ * NAME :               QD_VMC_APP( )
+ *
+ * DESCRIPTION :        Constructor
+ * 
+ */
+QD_VMC_APP::QD_VMC_APP() {
+    // Reading data from QD.ini
+    ini INIreader("QD.ini");
+
+    mc_cycles = (int) INIreader.GetDouble("main", "mc_cycles");
+    w = (int) INIreader.GetDouble("main", "w");
+    dim = INIreader.GetInt("main", "dim");
+    n_particles = INIreader.GetInt("main", "n_particles");
+    
+    a_start = INIreader.GetDouble("main", "a_start");
+    b_start = INIreader.GetDouble("main", "b_start");
+    a_steps = INIreader.GetDouble("main", "a_steps");
+    b_steps = INIreader.GetDouble("main", "b_steps");
+    
+    delta_a = INIreader.GetDouble("main", "delta_a");
+    delta_b = INIreader.GetDouble("main", "delta_b");
+    
+    sampling = INIreader.GetInt("main", "sampling");
+    jastrow = INIreader.GetBool("main", "jastrow");
+    blocking = INIreader.GetBool("main", "blocking");
+    
+    write_to_file = INIreader.GetBool("main", "write_to_file");
+    file_name = INIreader.GetString("main", "file_name");
+
+    paramset = new QVMC**[a_steps];
+    
+    QD_run_VMC();
+}
+
+QD_VMC_APP::~QD_VMC_APP() {
 }

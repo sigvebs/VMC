@@ -17,7 +17,7 @@ class Hamiltonian {
 public:
     Hamiltonian();
     //Hamiltonian( Wavefunction* );
-    Hamiltonian( Potential*, Interaction*, Kinetic* );
+    Hamiltonian( Potential*, Interaction*, Kinetic*, bool );
     virtual ~Hamiltonian();
     double get_energy( double** r);
 protected:
@@ -29,6 +29,7 @@ protected:
     double beta;
     double charge;
     bool analytic_energy;
+    bool jastrow;
     
     // New variabels
     Potential* potential;

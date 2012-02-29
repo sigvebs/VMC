@@ -18,7 +18,8 @@
  * DESCRIPTION :        Constructor 
  * 
  */
-Hamiltonian::Hamiltonian(Potential* potential, Interaction* interaction, Kinetic* kinetic) {
+Hamiltonian::Hamiltonian(Potential* potential, Interaction* interaction, Kinetic* kinetic, bool jastrow) {
+    this->jastrow = jastrow; 
     this->potential = potential;
     this->interaction = interaction;
     this->kinetic = kinetic;
@@ -49,7 +50,10 @@ double Hamiltonian::get_numerical_energy(double** r) {
     double e_pot, e_int, e_kin;
 
     e_pot = potential->evaluate(r);
-    e_int = interaction->evaluate(r);
+    if(jastrow)
+        e_int = interaction->evaluate(r);
+    else
+        e_int = 0;
     e_kin = kinetic->evaluate(r);
 
     return e_pot + e_int + e_kin;

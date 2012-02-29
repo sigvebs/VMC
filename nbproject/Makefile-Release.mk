@@ -41,16 +41,17 @@ OBJECTFILES= \
 	${OBJECTDIR}/Potential.o \
 	${OBJECTDIR}/main.o \
 	${OBJECTDIR}/Kinetic_electron.o \
-	${OBJECTDIR}/QD_MC_Importance_Sampling.o \
 	${OBJECTDIR}/Kinetic.o \
 	${OBJECTDIR}/Hamiltonian.o \
+	${OBJECTDIR}/MC_Brute_Force.o \
 	${OBJECTDIR}/QD_Harmonic_osc.o \
 	${OBJECTDIR}/QD_wavefunction.o \
 	${OBJECTDIR}/QVMC.o \
-	${OBJECTDIR}/QD_MC_Brute_Force.o \
+	${OBJECTDIR}/MC_Importance_Sampling.o \
 	${OBJECTDIR}/lib.o \
 	${OBJECTDIR}/electron_interaction.o \
 	${OBJECTDIR}/LA_VMC_APP.o \
+	${OBJECTDIR}/includes/ini.o \
 	${OBJECTDIR}/QD_VMC_APP.o
 
 
@@ -113,11 +114,6 @@ ${OBJECTDIR}/Kinetic_electron.o: Kinetic_electron.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/Kinetic_electron.o Kinetic_electron.cpp
 
-${OBJECTDIR}/QD_MC_Importance_Sampling.o: QD_MC_Importance_Sampling.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/QD_MC_Importance_Sampling.o QD_MC_Importance_Sampling.cpp
-
 ${OBJECTDIR}/Kinetic.o: Kinetic.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
@@ -127,6 +123,11 @@ ${OBJECTDIR}/Hamiltonian.o: Hamiltonian.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/Hamiltonian.o Hamiltonian.cpp
+
+${OBJECTDIR}/MC_Brute_Force.o: MC_Brute_Force.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/MC_Brute_Force.o MC_Brute_Force.cpp
 
 ${OBJECTDIR}/QD_Harmonic_osc.o: QD_Harmonic_osc.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -143,10 +144,10 @@ ${OBJECTDIR}/QVMC.o: QVMC.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/QVMC.o QVMC.cpp
 
-${OBJECTDIR}/QD_MC_Brute_Force.o: QD_MC_Brute_Force.cpp 
+${OBJECTDIR}/MC_Importance_Sampling.o: MC_Importance_Sampling.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/QD_MC_Brute_Force.o QD_MC_Brute_Force.cpp
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/MC_Importance_Sampling.o MC_Importance_Sampling.cpp
 
 ${OBJECTDIR}/lib.o: lib.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -162,6 +163,11 @@ ${OBJECTDIR}/LA_VMC_APP.o: LA_VMC_APP.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/LA_VMC_APP.o LA_VMC_APP.cpp
+
+${OBJECTDIR}/includes/ini.o: includes/ini.cpp 
+	${MKDIR} -p ${OBJECTDIR}/includes
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/includes/ini.o includes/ini.cpp
 
 ${OBJECTDIR}/QD_VMC_APP.o: QD_VMC_APP.cpp 
 	${MKDIR} -p ${OBJECTDIR}

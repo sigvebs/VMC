@@ -1,26 +1,26 @@
 /* 
- * File:   QD_MC_Importance_Sampling.cpp
+ * File:   MC_Importance_Sampling.cpp
  * Author: sigve
  * 
  * Created on 17. februar 2012, 15:20
  */
 
-#include "QD_MC_Importance_Sampling.h"
+#include "MC_Importance_Sampling.h"
 #include "lib.h"
 
 /*******************************************************************
  * 
- * NAME :               QD_MC_Importance_Sampling(Hamiltonian* ht, 
+ * NAME :               MC_Importance_Sampling(Hamiltonian* ht, 
  *                      Wavefunction* wf, int mc_cycles, long idum) 
  *
  * DESCRIPTION :        Constructor.
  */
-QD_MC_Importance_Sampling::QD_MC_Importance_Sampling(Hamiltonian* ht, Wavefunction* wf, int mc_cycles, long idum) : QVMC(ht, wf, mc_cycles, idum) {
+MC_Importance_Sampling::MC_Importance_Sampling(Hamiltonian* ht, Wavefunction* wf, int mc_cycles, long idum) : QVMC(ht, wf, mc_cycles, idum) {
     dt = 0.01; // Default time step
     D = 0.5; // Diffusion constant.
 };
 
-QD_MC_Importance_Sampling::~QD_MC_Importance_Sampling() {
+MC_Importance_Sampling::~MC_Importance_Sampling() {
 }
 
 /*******************************************************************
@@ -31,7 +31,7 @@ QD_MC_Importance_Sampling::~QD_MC_Importance_Sampling() {
  *
  * DESCRIPTION :        Coming
  */
-void QD_MC_Importance_Sampling::solve() {
+void MC_Importance_Sampling::solve() {
     double energy, energy_sq;
     int accepted;
 
@@ -51,7 +51,7 @@ void QD_MC_Importance_Sampling::solve() {
  *
  * DESCRIPTION :        Importance sampling
  */
-void QD_MC_Importance_Sampling::ic_sampling(int cycles, int& accepted, double& energy, double& energy_sq) {
+void MC_Importance_Sampling::ic_sampling(int cycles, int& accepted, double& energy, double& energy_sq) {
     double wf_old, wf_new, delta_e, greens_function;
 
     int n_particles = wf->getNParticles();
@@ -154,7 +154,7 @@ void QD_MC_Importance_Sampling::ic_sampling(int cycles, int& accepted, double& e
  * DESCRIPTION :        random numbers with gaussian distribution
  * 
  */
-double QD_MC_Importance_Sampling::gaussian_deviate(long * idum) {
+double MC_Importance_Sampling::gaussian_deviate(long * idum) {
     static int iset = 0;
     static double gset;
     double fac, rsq, v1, v2;

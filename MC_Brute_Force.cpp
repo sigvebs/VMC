@@ -1,17 +1,17 @@
 /* 
- * File:   QD_MC_Brute_Force.cpp
+ * File:   MC_Brute_Force.cpp
  * Author: sigve
  * 
  * Created on 17. februar 2012, 14:43
  */
 
-#include "QD_MC_Brute_Force.h"
+#include "MC_Brute_Force.h"
 #include "lib.h"
 
-QD_MC_Brute_Force::QD_MC_Brute_Force(Hamiltonian* ht, Wavefunction* wf, int mc_cycles, long idum) : QVMC(ht, wf, mc_cycles, idum) {
+MC_Brute_Force::MC_Brute_Force(Hamiltonian* ht, Wavefunction* wf, int mc_cycles, long idum) : QVMC(ht, wf, mc_cycles, idum) {
 }
 
-QD_MC_Brute_Force::~QD_MC_Brute_Force() {
+MC_Brute_Force::~MC_Brute_Force() {
 }
 
 /*******************************************************************
@@ -22,7 +22,7 @@ QD_MC_Brute_Force::~QD_MC_Brute_Force() {
  *
  * DESCRIPTION :        Coming
  */
-void QD_MC_Brute_Force::solve() {
+void MC_Brute_Force::solve() {
     double step_length, energy, energy_sq;
     int accepted;
     energy = 0;
@@ -45,7 +45,7 @@ void QD_MC_Brute_Force::solve() {
  *
  * DESCRIPTION :        Coming
  */
-void QD_MC_Brute_Force::mc_sampling(int cycles, double step_length, int& accepted, double& total_energy, double& total_energy_sq) {
+void MC_Brute_Force::mc_sampling(int cycles, double step_length, int& accepted, double& total_energy, double& total_energy_sq) {
     int i, j;
     double wf_old, wf_new;
     double delta_e, loc_energy, loc_energy_sq;
@@ -75,19 +75,11 @@ void QD_MC_Brute_Force::mc_sampling(int cycles, double step_length, int& accepte
     for (int sample = 0; sample < (cycles + thermalization); sample++) {
 
         // Changes the position of the electrons
-#if 0 // Moving one particle at the time
-        int active = sample % (n_particles);
-
-        for (j = 0; j < dim; j++) {
-            r_new[active][j] = r_old[active][j] + step_length * (ran2(&idum) - 0.5);
-        }
-#else // Moving both particles
         for (i = 0; i < n_particles; i++) {
             for (j = 0; j < dim; j++) {
                 r_new[i][j] = r_old[i][j] + step_length * (ran3(&idum) - 0.5);
             }
         }
-#endif
 
         wf_new = wf->evaluate(r_new);
 
@@ -125,7 +117,7 @@ void QD_MC_Brute_Force::mc_sampling(int cycles, double step_length, int& accepte
  *
  * DESCRIPTION :        Coming
  */
-double QD_MC_Brute_Force::optimal_step_length() {
+double MC_Brute_Force::optimal_step_length() {
     double min, max, tolerance;
     min = 0.01;
     max = 4;
@@ -146,7 +138,7 @@ double QD_MC_Brute_Force::optimal_step_length() {
  *
  * DESCRIPTION :        Coming
  */
-double QD_MC_Brute_Force::difference(double step_length) {
+double MC_Brute_Force::difference(double step_length) {
     double tmp1, tmp2;
     double tot_energy, tot_energy_sq;
     int accepted, mc_samples_sl;

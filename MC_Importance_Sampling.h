@@ -1,18 +1,18 @@
 /* 
- * File:   QD_MC_Importance_Sampling.h
+ * File:   MC_Importance_Sampling.h
  * Author: sigve
  *
  * Created on 17. februar 2012, 15:20
  */
 
-#ifndef QD_MC_IMPORTANCE_SAMPLING_H
-#define	QD_MC_IMPORTANCE_SAMPLING_H
+#ifndef MC_Importance_Sampling_H
+#define	MC_Importance_Sampling_H
 #include "QVMC.h"
 
-class QD_MC_Importance_Sampling: public QVMC {
+class MC_Importance_Sampling: public QVMC {
 public:
-    QD_MC_Importance_Sampling(Hamiltonian* ht, Wavefunction* wf, int mc_cycles, long idum);
-    virtual ~QD_MC_Importance_Sampling();
+    MC_Importance_Sampling(Hamiltonian* ht, Wavefunction* wf, int mc_cycles, long idum);
+    virtual ~MC_Importance_Sampling();
     
     // Functions
     virtual void solve();
@@ -27,5 +27,5 @@ protected:
     double gaussian_deviate(long * idum);
 };
 
-#endif	/* QD_MC_IMPORTANCE_SAMPLING_H */
+#endif	/* MC_Importance_Sampling_H */
 
