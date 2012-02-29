@@ -46,8 +46,9 @@ OBJECTFILES= \
 	${OBJECTDIR}/QD_Jastrow.o \
 	${OBJECTDIR}/MC_Brute_Force.o \
 	${OBJECTDIR}/QD_Harmonic_osc.o \
-	${OBJECTDIR}/QD_wavefunction.o \
 	${OBJECTDIR}/QVMC.o \
+	${OBJECTDIR}/QD_wavefunction.o \
+	${OBJECTDIR}/Hermite.o \
 	${OBJECTDIR}/MC_Importance_Sampling.o \
 	${OBJECTDIR}/lib.o \
 	${OBJECTDIR}/electron_interaction.o \
@@ -141,15 +142,20 @@ ${OBJECTDIR}/QD_Harmonic_osc.o: QD_Harmonic_osc.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/QD_Harmonic_osc.o QD_Harmonic_osc.cpp
 
+${OBJECTDIR}/QVMC.o: QVMC.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/QVMC.o QVMC.cpp
+
 ${OBJECTDIR}/QD_wavefunction.o: QD_wavefunction.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/QD_wavefunction.o QD_wavefunction.cpp
 
-${OBJECTDIR}/QVMC.o: QVMC.cpp 
+${OBJECTDIR}/Hermite.o: Hermite.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/QVMC.o QVMC.cpp
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/Hermite.o Hermite.cpp
 
 ${OBJECTDIR}/MC_Importance_Sampling.o: MC_Importance_Sampling.cpp 
 	${MKDIR} -p ${OBJECTDIR}

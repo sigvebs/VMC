@@ -13,7 +13,7 @@ class QD_wavefunction: public Wavefunction {
 public:
     QD_wavefunction( int, int, double, double, double, bool );
     
-    virtual double eval_simple( double** );
+    virtual double eval_simple( double**, int );
     virtual double get_simple_gradient( double**, int, int );
 private:
     double w;

@@ -28,19 +28,15 @@ QD_wavefunction::QD_wavefunction(int dim, int n_particles, double alpha, double 
  * DESCRIPTION :        Evaluates the 'simple' wavefunction at the coordinate r.
  * 
  */
-double QD_wavefunction::eval_simple(double** r) {
-    double argument = 0;
-    double r_;
+double QD_wavefunction::eval_simple(double** r, int active) {
+    double r_sq;
+    
+    r_sq = 0;
+    for (int i = 0; i < dim; i++) {
+        r_sq += r[active][i] * r[active][i];
 
-    for (int i = 0; i < n_particles; i++) {
-        r_ = 0;
-        for (int j = 0; j < dim; j++) {
-            r_ += r[i][j] * r[i][j];
-        }
-        argument += r_;
     }
-
-    return exp(-0.5 * alpha * w * argument);
+    return -0.5 * alpha * w * r_sq;
 }
 
 /*******************************************************************

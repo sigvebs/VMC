@@ -9,6 +9,7 @@
 #define	WAVEFUNCTION_H
 
 #include "Jastrow.h"
+#include "Hermite.h"
 
 class Wavefunction {
 public:
@@ -25,10 +26,11 @@ public:
     
     double evaluate( double** );
     void q_force( double**, double** );
-    virtual double eval_simple( double** ) = 0;
+    virtual double eval_simple( double**, int ) = 0;
     virtual double get_simple_gradient( double**, int, int ) = 0;
 protected:
     Jastrow *jas;
+    Hermite *H;
     int dim;
     int n_particles;
     double alpha;

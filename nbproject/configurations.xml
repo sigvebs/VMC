@@ -50,6 +50,8 @@
         <itemPath>electron_interaction.h</itemPath>
       </logicalFolder>
       <itemPath>Hamiltonian.cpp</itemPath>
+      <itemPath>Hermite.cpp</itemPath>
+      <itemPath>Hermite.h</itemPath>
       <itemPath>Interaction.cpp</itemPath>
       <itemPath>Jastrow.cpp</itemPath>
       <itemPath>Kinetic.cpp</itemPath>

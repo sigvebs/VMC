@@ -21,6 +21,7 @@
  */
 Wavefunction::Wavefunction(int dim, int n_particles, double alpha, double beta, bool jastrow) {
     jas = new QD_Jastrow(dim, n_particles, beta);
+    H = new Hermite();
     this->dim = dim;
     this->n_particles = n_particles;
     this->alpha = alpha;
@@ -36,10 +37,14 @@ Wavefunction::Wavefunction(int dim, int n_particles, double alpha, double beta, 
  * DESCRIPTION :        Constructor
  * 
  */
-double Wavefunction::evaluate(double** r) {
-    double psi;
-    psi = eval_simple(r);
-
+double Wavefunction::evaluate(double** r) {   
+    double psi = 0;
+    for(int i=0; i<n_particles; i++){
+        psi += eval_simple(r, i);
+    }
+    psi = exp(psi);
+    
+    // Adding the Jastrow part
     if (jastrow) {
         psi *= jas->evaluate(r);
     }
