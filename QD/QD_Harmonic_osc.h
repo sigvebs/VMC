@@ -7,14 +7,13 @@
 
 #ifndef HARMONIC_OSC_H
 #define	HARMONIC_OSC_H
-#include "Potential.h"
+#include "../Potential.h"
 
 class QD_Harmonic_osc : public Potential {
 public:
     QD_Harmonic_osc(int, int, double);
-    virtual ~QD_Harmonic_osc();
 
-    virtual double evaluate(double**);
+    virtual double evaluate(mat);
 private:
     double w;
 };

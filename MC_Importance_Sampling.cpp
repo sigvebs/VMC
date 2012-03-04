@@ -5,8 +5,9 @@
  * Created on 17. februar 2012, 15:20
  */
 
+#include <armadillo>
 #include "MC_Importance_Sampling.h"
-#include "lib.h"
+#include "includes/lib.h"
 
 /*******************************************************************
  * 
@@ -58,28 +59,30 @@ void MC_Importance_Sampling::ic_sampling(int cycles, int& accepted, double& ener
     int dim = wf->getDim();
 
     // Initiating variables
-    energy = energy_sq = accepted = 0;
+    energy = 0;
+    energy_sq = 0;
+    accepted = 0;
 
     // Quantum Force.
-    double **q_force_old, **q_force_new;
-    q_force_old = (double **) matrix(n_particles, dim, sizeof (double));
-    q_force_new = (double **) matrix(n_particles, dim, sizeof (double));
+    mat q_force_old = zeros<mat > (n_particles, dim);
+    mat q_force_new = zeros<mat > (n_particles, dim);
 
     // Initial position of the electrons
-    double **r_old, **r_new;
-    r_old = (double **) matrix(n_particles, dim, sizeof (double));
-    r_new = (double **) matrix(n_particles, dim, sizeof (double));
+    mat r_old = zeros<mat > (n_particles, dim);
+    mat r_new = zeros<mat > (n_particles, dim);
 
-    for (int i = 0; i < n_particles; i++) {
-        for (int j = 0; j < dim; j++) {
-            r_old[i][j] = gaussian_deviate(&idum) * sqrt(dt);
-            r_new[i][j] = r_old[i][j];
-        }
-    }
+    for (int i = 0; i < n_particles; i++)
+        for (int j = 0; j < dim; j++)
+            r_old(i, j) = gaussian_deviate(&idum) * sqrt(dt);
+
+    r_new = r_old;
 
     // Evalutating the Quantum Force and Wave Function in the inital position.
-    wf_old = wf->evaluate(r_old);
-    wf->q_force(r_old, q_force_old);
+    wf->set_r_new(r_old);
+    wf->evaluate_new();
+    wf->accept_move();
+
+    wf_old = wf->get_wf_old();
 
     // Monte Carlo cycles
     for (int sample = 0; sample < (cycles + thermalization); sample++) {
@@ -88,33 +91,33 @@ void MC_Importance_Sampling::ic_sampling(int cycles, int& accepted, double& ener
         for (int active = 0; active < n_particles; active++) {
 
             // Calculating new trial position.
-            for (int j = 0; j < dim; j++) {
-                r_new[active][j] = r_old[active][j] + D * q_force_old[active][j] * dt + gaussian_deviate(&idum) * sqrt(dt);
+            for (int i = 0; i < dim; i++) {
+                r_new(active, i) = r_old(active, i) + D * q_force_old(active, i) * dt + gaussian_deviate(&idum) * sqrt(dt);
             }
+
+            // Evaluating the Wave Function in r_new.
+            wf->set_r_new(r_new);
+            wf->evaluate_new();
+            wf_new = wf->get_wf_new();
+
             // Updating the quantum force.
-            wf->q_force(r_new, q_force_new);
+            q_force_new = wf->q_force(r_new);
 
             // Calculating the ratio between the Green's functions.
             greens_function = 0;
             for (int j = 0; j < dim; j++) {
-                greens_function += (q_force_old[active][j] + q_force_new[active][j])
-                        * (D * dt * 0.5 * (q_force_old[active][j] - q_force_new[active][j]) - (r_new[active][j] - r_old[active][j]));
+                greens_function += (q_force_old(active, j) + q_force_new(active, j))
+                        * (D * dt * 0.5 * (q_force_old(active, j) - q_force_new(active, j)) - (r_new(active, j) - r_old(active, j)));
             }
+
             greens_function = exp(0.5 * greens_function);
 
-            // Evaluating the Wave Function in r_new.
-            wf_new = wf->evaluate(r_new);
-
             // Metropolis-Hastings acceptance test .
-            if (ran2(&idum) <= greens_function * wf_new * wf_new / wf_old / wf_old) {
-                // Storing the accepted values.
-                for (int i = 0; i < n_particles; i++) {
-                    for (int j = 0; j < dim; j++) {
-                        r_old[i][j] = r_new[i][j];
-                        q_force_old[i][j] = q_force_new[i][j];
-                    }
-                }
+            if (ran3(&idum) <= greens_function * wf_new * wf_new / wf_old / wf_old) {
+                r_old = r_new;
+                q_force_old = q_force_new;
                 wf_old = wf_new;
+                wf->accept_move();
                 if (sample > thermalization) {
                     accepted++;
                 }
@@ -122,7 +125,7 @@ void MC_Importance_Sampling::ic_sampling(int cycles, int& accepted, double& ener
                 // If the move is not accepted the position is reset.
                 for (int i = 0; i < n_particles; i++) {
                     for (int j = 0; j < dim; j++)
-                        r_new[i][j] = r_old[i][j];
+                        r_new(i, j) = r_old(i, j);
                 }
             }
 
@@ -139,19 +142,13 @@ void MC_Importance_Sampling::ic_sampling(int cycles, int& accepted, double& ener
     energy = energy / cycles / n_particles;
     energy_sq = energy_sq / cycles / n_particles;
     accepted /= n_particles;
-
-    // Freeing memory
-    free_matrix((void**) r_old);
-    free_matrix((void**) r_new);
-    free_matrix((void**) q_force_old);
-    free_matrix((void**) q_force_new);
 }
 
 /*******************************************************************
  * 
  * NAME :               gaussian_deviate(long * idum) 
  *
- * DESCRIPTION :        random numbers with gaussian distribution
+ * DESCRIPTION :        Random numbers with gaussian distribution
  * 
  */
 double MC_Importance_Sampling::gaussian_deviate(long * idum) {

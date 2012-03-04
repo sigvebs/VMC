@@ -13,27 +13,26 @@ using namespace std;
 #include <mpi.h>
 #include <math.h>
 #include <sys/time.h>
-#include "includes/ini.h"
+#include "../includes/ini.h"
 
 // General imports
-#include "Wavefunction.h"
-#include "Potential.h"
-#include "Coulomb_pot.h"
-#include "Hamiltonian.h"
-#include "Interaction.h"
-#include "electron_interaction.h"
-#include "Kinetic.h"
-#include "Kinetic_electron.h"
+#include "../Wavefunction.h"
+#include "../Potential.h"
+#include "../Coulomb_pot.h"
+#include "../Hamiltonian.h"
+#include "../Interaction.h"
+#include "../QD_electron_interaction.h"
+#include "../Kinetic.h"
+#include "../Kinetic_electron.h"
 
 // QD imports
 #include "QD_VMC_APP.h"
-#include "QVMC.h"
+#include "../QVMC.h"
 #include "QD_wavefunction.h"
 #include "QD_Harmonic_osc.h"
 #include "QD_kinetic.h"
-#include "MC_Brute_Force.h"
-#include "MC_Importance_Sampling.h"
-
+#include "../MC_Brute_Force.h"
+#include "../MC_Importance_Sampling.h"
 
 /*******************************************************************
  * 
@@ -58,14 +57,15 @@ void QD_VMC_APP::QD_run_VMC() {
 
     // Initiating Energy classes
     Potential* potential = new QD_Harmonic_osc(dim, n_particles, w);
-    Interaction* interaction = new electron_interaction(dim, n_particles);
+    Interaction* interaction = new QD_electron_interaction(dim, n_particles);
     Kinetic* kinetic = new QD_kinetic(dim, n_particles, w);
     Hamiltonian* ht = new Hamiltonian(potential, interaction, kinetic, jastrow);
 
-    // Running over all variational parameters
+    // Running over all variational parameters.
     for (int i = 0; i < a_steps; i++) {
         a = a_start + i*delta_a;
         paramset[i] = new QVMC*[b_steps];
+
         for (int j = 0; j < b_steps; j++) {
             b = b_start + j*delta_b;
 
@@ -74,28 +74,32 @@ void QD_VMC_APP::QD_run_VMC() {
 
             if (sampling == 0)
                 paramset[i][j] = new MC_Brute_Force(ht, wf, mc_cycles, idum);
-            else if (sampling == 1)
+            else if (sampling == 1) {
                 paramset[i][j] = new MC_Importance_Sampling(ht, wf, mc_cycles, idum);
+            }
 
             paramset[i][j]->solve();
 
-            // MPI
+            // MPI.
             tmp = paramset[i][j]->get_energy();
             MPI_Allreduce(&tmp, &tot_energy, 1, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
             tot_energy /= numproc;
+
             tmp = paramset[i][j]->get_energy_sq();
             MPI_Allreduce(&tmp, &tot_energy_sq, 1, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
             tot_energy_sq /= numproc;
+
             tmp = paramset[i][j]->get_accepted();
             MPI_Allreduce(&tmp, &accepted, 1, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
             accepted /= numproc;
 
-            // Printing progress
+            // Printing progress.
             if (my_rank == 0) {
-                cout << a << ", " << b << " Energy " << tot_energy
-                        << " Variance " << tot_energy_sq - tot_energy * tot_energy
-                        << " Sigma " << sqrt(tot_energy_sq - tot_energy * tot_energy)
-                        << " Accepted " << accepted / mc_cycles
+                cout << a << ", " << b << " Energy = " << tot_energy
+                        << ", Variance = " << tot_energy_sq - tot_energy * tot_energy
+                        << ", Sigma = " << sqrt(tot_energy_sq - tot_energy * tot_energy)
+                        << ", Accepted = " << accepted / mc_cycles
+                        << ", MC cycles = " << mc_cycles*numproc
                         << "\n";
             }
             paramset[i][j]->set_energy(tot_energy);
@@ -104,10 +108,12 @@ void QD_VMC_APP::QD_run_VMC() {
         }
     }
 
-    // Writing results to file
+    // Writing results to file.
     if (write_to_file) {
-        if (my_rank == 0)
+        if (my_rank == 0) {
             QD_write_to_file();
+            cout << "Writing data to file..." << endl;
+        }
     }
 
     MPI_Finalize();
@@ -125,7 +131,7 @@ void QD_VMC_APP::QD_write_to_file() {
     double energy, energy_sq;
 
     ofstream outStream;
-    outStream.open((const char*)&file_name[0]);
+    outStream.open((const char*) &file_name[0]);
 
     // Running over all variational parameters
     for (int i = 0; i < a_steps; i++) {
@@ -140,6 +146,7 @@ void QD_VMC_APP::QD_write_to_file() {
     }
     outStream.close();
 }
+
 /*******************************************************************
  * 
  * NAME :               QD_VMC_APP( )
@@ -155,26 +162,23 @@ QD_VMC_APP::QD_VMC_APP() {
     w = (int) INIreader.GetDouble("main", "w");
     dim = INIreader.GetInt("main", "dim");
     n_particles = INIreader.GetInt("main", "n_particles");
-    
+
     a_start = INIreader.GetDouble("main", "a_start");
     b_start = INIreader.GetDouble("main", "b_start");
     a_steps = INIreader.GetDouble("main", "a_steps");
     b_steps = INIreader.GetDouble("main", "b_steps");
-    
+
     delta_a = INIreader.GetDouble("main", "delta_a");
     delta_b = INIreader.GetDouble("main", "delta_b");
-    
+
     sampling = INIreader.GetInt("main", "sampling");
     jastrow = INIreader.GetBool("main", "jastrow");
     blocking = INIreader.GetBool("main", "blocking");
-    
+
     write_to_file = INIreader.GetBool("main", "write_to_file");
     file_name = INIreader.GetString("main", "file_name");
 
     paramset = new QVMC**[a_steps];
-    
-    QD_run_VMC();
-}
 
-QD_VMC_APP::~QD_VMC_APP() {
+    QD_run_VMC();
 }

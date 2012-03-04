@@ -13,7 +13,6 @@ class MC_Brute_Force : public QVMC {
 public:
     MC_Brute_Force();
     MC_Brute_Force(Hamiltonian*, Wavefunction*, int, long);
-    virtual ~MC_Brute_Force();
 
     void mc_sampling(int, double, int&, double&, double&);
     virtual void solve();

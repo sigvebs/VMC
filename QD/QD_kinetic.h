@@ -8,15 +8,12 @@
 #ifndef QD_KINETIC_H
 #define	QD_KINETIC_H
 
-#include "Kinetic.h"
+#include "../Kinetic.h"
 
 class QD_kinetic: public Kinetic {
 public:
-    QD_kinetic(int ,int ,double );
-
-    virtual ~QD_kinetic();
-    
-    virtual double evaluate( double** );
+    QD_kinetic(int ,int ,double );    
+    virtual double evaluate( mat );
 private:
     double w;
 };

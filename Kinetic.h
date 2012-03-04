@@ -12,11 +12,9 @@
 class Kinetic {
 public:
     Kinetic(int, int);
-    Kinetic(const Kinetic& orig);
-    virtual ~Kinetic();
     
     void set_wf( Wavefunction* wf){ this->wf = wf;};
-    virtual double evaluate( double** ) = 0;
+    virtual double evaluate( mat ) = 0;
 protected:
     int n_particles;
     int dim;

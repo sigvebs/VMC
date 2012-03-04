@@ -11,10 +11,3 @@ Interaction::Interaction( int dim, int n_particles ){
     this->n_particles = n_particles;
     this->dim = dim;
 }
-
-Interaction::Interaction(const Interaction& orig) {
-}
-
-Interaction::~Interaction() {
-}
-

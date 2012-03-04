@@ -8,14 +8,16 @@
 #ifndef POTENTIAL_H
 #define	POTENTIAL_H
 
+#include <armadillo>
+using namespace arma;
+
 class Potential {
 public:
     Potential();
     Potential( int, int );
     
-    virtual double evaluate(double**) = 0;
+    virtual double evaluate(mat) = 0;
     
-    virtual ~Potential();
 protected:
     int n_particles;
     int dim;

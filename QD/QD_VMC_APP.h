@@ -8,14 +8,13 @@
 #ifndef QD_VMC_APP_H
 #define	QD_VMC_APP_H
 
-#include "QVMC.h"
+#include "../QVMC.h"
 
 #include <string>
 
 class QD_VMC_APP {
 public:
     QD_VMC_APP();
-    virtual ~QD_VMC_APP();
     
     void QD_run_VMC();
 protected:

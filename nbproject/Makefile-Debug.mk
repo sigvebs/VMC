@@ -34,36 +34,40 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
-	${OBJECTDIR}/QD_kinetic.o \
 	${OBJECTDIR}/Interaction.o \
+	${OBJECTDIR}/QD/QD_Jastrow.o \
 	${OBJECTDIR}/Coulomb_pot.o \
 	${OBJECTDIR}/Wavefunction.o \
+	${OBJECTDIR}/QD/QD_VMC_APP.o \
 	${OBJECTDIR}/Potential.o \
+	${OBJECTDIR}/QD/QD_kinetic.o \
 	${OBJECTDIR}/main.o \
 	${OBJECTDIR}/Kinetic_electron.o \
+	${OBJECTDIR}/Slater.o \
 	${OBJECTDIR}/Kinetic.o \
 	${OBJECTDIR}/Hamiltonian.o \
-	${OBJECTDIR}/QD_Jastrow.o \
+	${OBJECTDIR}/QD/QD_wavefunction.o \
+	${OBJECTDIR}/includes/lib.o \
 	${OBJECTDIR}/MC_Brute_Force.o \
-	${OBJECTDIR}/QD_Harmonic_osc.o \
+	${OBJECTDIR}/QD/QD_Harmonic_osc.o \
+	${OBJECTDIR}/QD/QD_Orbital.o \
 	${OBJECTDIR}/QVMC.o \
-	${OBJECTDIR}/QD_wavefunction.o \
 	${OBJECTDIR}/Hermite.o \
 	${OBJECTDIR}/MC_Importance_Sampling.o \
-	${OBJECTDIR}/lib.o \
+	${OBJECTDIR}/QD_electron_interaction.o \
 	${OBJECTDIR}/electron_interaction.o \
 	${OBJECTDIR}/LA_VMC_APP.o \
 	${OBJECTDIR}/Jastrow.o \
 	${OBJECTDIR}/includes/ini.o \
-	${OBJECTDIR}/QD_VMC_APP.o
+	${OBJECTDIR}/Orbital.o
 
 
 # C Compiler Flags
 CFLAGS=
 
 # CC Compiler Flags
-CCFLAGS=-o3 -DMPICH_IGNORE_CXX_SEEK -Werror
-CXXFLAGS=-o3 -DMPICH_IGNORE_CXX_SEEK -Werror
+CCFLAGS=-o3 -DMPICH_IGNORE_CXX_SEEK -llapack -lblas -larmadillo
+CXXFLAGS=-o3 -DMPICH_IGNORE_CXX_SEEK -llapack -lblas -larmadillo
 
 # Fortran Compiler Flags
 FFLAGS=
@@ -82,15 +86,15 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/vmc: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/vmc ${OBJECTFILES} ${LDLIBSOPTIONS} 
 
-${OBJECTDIR}/QD_kinetic.o: QD_kinetic.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/QD_kinetic.o QD_kinetic.cpp
-
 ${OBJECTDIR}/Interaction.o: Interaction.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Interaction.o Interaction.cpp
+
+${OBJECTDIR}/QD/QD_Jastrow.o: QD/QD_Jastrow.cpp 
+	${MKDIR} -p ${OBJECTDIR}/QD
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/QD/QD_Jastrow.o QD/QD_Jastrow.cpp
 
 ${OBJECTDIR}/Coulomb_pot.o: Coulomb_pot.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -102,10 +106,20 @@ ${OBJECTDIR}/Wavefunction.o: Wavefunction.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Wavefunction.o Wavefunction.cpp
 
+${OBJECTDIR}/QD/QD_VMC_APP.o: QD/QD_VMC_APP.cpp 
+	${MKDIR} -p ${OBJECTDIR}/QD
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/QD/QD_VMC_APP.o QD/QD_VMC_APP.cpp
+
 ${OBJECTDIR}/Potential.o: Potential.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Potential.o Potential.cpp
+
+${OBJECTDIR}/QD/QD_kinetic.o: QD/QD_kinetic.cpp 
+	${MKDIR} -p ${OBJECTDIR}/QD
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/QD/QD_kinetic.o QD/QD_kinetic.cpp
 
 ${OBJECTDIR}/main.o: main.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -117,6 +131,11 @@ ${OBJECTDIR}/Kinetic_electron.o: Kinetic_electron.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Kinetic_electron.o Kinetic_electron.cpp
 
+${OBJECTDIR}/Slater.o: Slater.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Slater.o Slater.cpp
+
 ${OBJECTDIR}/Kinetic.o: Kinetic.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
@@ -127,30 +146,35 @@ ${OBJECTDIR}/Hamiltonian.o: Hamiltonian.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Hamiltonian.o Hamiltonian.cpp
 
-${OBJECTDIR}/QD_Jastrow.o: QD_Jastrow.cpp 
-	${MKDIR} -p ${OBJECTDIR}
+${OBJECTDIR}/QD/QD_wavefunction.o: QD/QD_wavefunction.cpp 
+	${MKDIR} -p ${OBJECTDIR}/QD
 	${RM} $@.d
-	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/QD_Jastrow.o QD_Jastrow.cpp
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/QD/QD_wavefunction.o QD/QD_wavefunction.cpp
+
+${OBJECTDIR}/includes/lib.o: includes/lib.cpp 
+	${MKDIR} -p ${OBJECTDIR}/includes
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/includes/lib.o includes/lib.cpp
 
 ${OBJECTDIR}/MC_Brute_Force.o: MC_Brute_Force.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/MC_Brute_Force.o MC_Brute_Force.cpp
 
-${OBJECTDIR}/QD_Harmonic_osc.o: QD_Harmonic_osc.cpp 
-	${MKDIR} -p ${OBJECTDIR}
+${OBJECTDIR}/QD/QD_Harmonic_osc.o: QD/QD_Harmonic_osc.cpp 
+	${MKDIR} -p ${OBJECTDIR}/QD
 	${RM} $@.d
-	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/QD_Harmonic_osc.o QD_Harmonic_osc.cpp
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/QD/QD_Harmonic_osc.o QD/QD_Harmonic_osc.cpp
+
+${OBJECTDIR}/QD/QD_Orbital.o: QD/QD_Orbital.cpp 
+	${MKDIR} -p ${OBJECTDIR}/QD
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/QD/QD_Orbital.o QD/QD_Orbital.cpp
 
 ${OBJECTDIR}/QVMC.o: QVMC.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/QVMC.o QVMC.cpp
-
-${OBJECTDIR}/QD_wavefunction.o: QD_wavefunction.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/QD_wavefunction.o QD_wavefunction.cpp
 
 ${OBJECTDIR}/Hermite.o: Hermite.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -162,10 +186,10 @@ ${OBJECTDIR}/MC_Importance_Sampling.o: MC_Importance_Sampling.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/MC_Importance_Sampling.o MC_Importance_Sampling.cpp
 
-${OBJECTDIR}/lib.o: lib.cpp 
+${OBJECTDIR}/QD_electron_interaction.o: QD_electron_interaction.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/lib.o lib.cpp
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/QD_electron_interaction.o QD_electron_interaction.cpp
 
 ${OBJECTDIR}/electron_interaction.o: electron_interaction.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -187,10 +211,10 @@ ${OBJECTDIR}/includes/ini.o: includes/ini.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/includes/ini.o includes/ini.cpp
 
-${OBJECTDIR}/QD_VMC_APP.o: QD_VMC_APP.cpp 
+${OBJECTDIR}/Orbital.o: Orbital.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/QD_VMC_APP.o QD_VMC_APP.cpp
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Orbital.o Orbital.cpp
 
 # Subprojects
 .build-subprojects:

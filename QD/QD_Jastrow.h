@@ -7,15 +7,17 @@
 
 #ifndef QD_JASTROW_H
 #define	QD_JASTROW_H
-#include "Jastrow.h"
+#include "../Jastrow.h"
+#include "../defines.h";
 
 class QD_Jastrow : public Jastrow {
 public:
     QD_Jastrow(int, int, double);
-    virtual double evaluate(double**);
-    virtual double get_gradient(double**, int, int);
+    virtual double evaluate(mat);
+    virtual void compute_gradient(mat, int);
+    virtual double get_laplacian(mat, int);
 protected:
-
+    mat a;
 };
 
 #endif	/* QD_JASTROW_H */

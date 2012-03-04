@@ -10,6 +10,8 @@
 
 #include "Jastrow.h"
 #include "Hermite.h"
+#include "Slater.h"
+#include <armadillo>
 
 class Wavefunction {
 public:
@@ -24,18 +26,26 @@ public:
     double get_energy( double** );
     void set_Jastrow( bool jastrow){ this->jastrow=jastrow;};
     
-    double evaluate( double** );
-    void q_force( double**, double** );
-    virtual double eval_simple( double**, int ) = 0;
-    virtual double get_simple_gradient( double**, int, int ) = 0;
+    double evaluate( mat );
+    mat q_force( mat );
+    void set_r_new(mat r_new);
+    void evaluate_new();
+    double get_wf_old(){ return WF_old;};
+    double get_wf_new(){ return WF_new;};
+    void accept_move();
+    double get_laplacian(mat);
 protected:
+    mat r_old;
+    mat r_new;
     Jastrow *jas;
-    Hermite *H;
+    Slater *slater;
     int dim;
     int n_particles;
     double alpha;
     double beta;
     bool jastrow;
+    double WF_old;
+    double WF_new;
 };
 
 #endif	/* WAVEFUNCTION_H */

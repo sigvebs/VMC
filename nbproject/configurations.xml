@@ -5,13 +5,16 @@
                    displayName="Header Files"
                    projectFiles="true">
       <itemPath>Hamiltonian.h</itemPath>
+      <itemPath>Hermite.h</itemPath>
       <itemPath>Interaction.h</itemPath>
       <itemPath>Jastrow.h</itemPath>
       <itemPath>Kinetic.h</itemPath>
       <itemPath>MC_Brute_Force.h</itemPath>
       <itemPath>MC_Importance_Sampling.h</itemPath>
+      <itemPath>Orbital.h</itemPath>
       <itemPath>Potential.h</itemPath>
       <itemPath>QVMC.h</itemPath>
+      <itemPath>Slater.h</itemPath>
       <itemPath>Wavefunction.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
@@ -19,26 +22,12 @@
                    projectFiles="true">
       <itemPath>includes/ini.cpp</itemPath>
       <itemPath>includes/ini.h</itemPath>
-      <itemPath>lib.cpp</itemPath>
-      <itemPath>lib.h</itemPath>
+      <itemPath>includes/lib.cpp</itemPath>
+      <itemPath>includes/lib.h</itemPath>
     </logicalFolder>
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
-      <logicalFolder name="f1" displayName="2 Quantum Dots " projectFiles="true">
-        <logicalFolder name="f1" displayName="Headers" projectFiles="true">
-          <itemPath>QD_Harmonic_osc.h</itemPath>
-          <itemPath>QD_Jastrow.h</itemPath>
-          <itemPath>QD_VMC_APP.h</itemPath>
-          <itemPath>QD_kinetic.h</itemPath>
-          <itemPath>QD_wavefunction.h</itemPath>
-        </logicalFolder>
-        <itemPath>QD_Harmonic_osc.cpp</itemPath>
-        <itemPath>QD_Jastrow.cpp</itemPath>
-        <itemPath>QD_VMC_APP.cpp</itemPath>
-        <itemPath>QD_kinetic.cpp</itemPath>
-        <itemPath>QD_wavefunction.cpp</itemPath>
-      </logicalFolder>
       <logicalFolder name="f2" displayName="Light Atoms" projectFiles="true">
         <itemPath>Coulomb_pot.cpp</itemPath>
         <itemPath>Coulomb_pot.h</itemPath>
@@ -49,18 +38,38 @@
         <itemPath>electron_interaction.cpp</itemPath>
         <itemPath>electron_interaction.h</itemPath>
       </logicalFolder>
+      <logicalFolder name="f1" displayName="Quantum Dots " projectFiles="true">
+        <logicalFolder name="f1" displayName="Headers" projectFiles="true">
+          <itemPath>QD/QD_Harmonic_osc.h</itemPath>
+          <itemPath>QD/QD_Jastrow.h</itemPath>
+          <itemPath>QD/QD_Orbital.h</itemPath>
+          <itemPath>QD/QD_VMC_APP.h</itemPath>
+          <itemPath>QD/QD_kinetic.h</itemPath>
+          <itemPath>QD/QD_wavefunction.h</itemPath>
+        </logicalFolder>
+        <itemPath>QD/QD_Harmonic_osc.cpp</itemPath>
+        <itemPath>QD/QD_Jastrow.cpp</itemPath>
+        <itemPath>QD/QD_Orbital.cpp</itemPath>
+        <itemPath>QD/QD_VMC_APP.cpp</itemPath>
+        <itemPath>QD_electron_interaction.cpp</itemPath>
+        <itemPath>QD_electron_interaction.h</itemPath>
+        <itemPath>QD/QD_kinetic.cpp</itemPath>
+        <itemPath>QD/QD_wavefunction.cpp</itemPath>
+      </logicalFolder>
       <itemPath>Hamiltonian.cpp</itemPath>
       <itemPath>Hermite.cpp</itemPath>
-      <itemPath>Hermite.h</itemPath>
       <itemPath>Interaction.cpp</itemPath>
       <itemPath>Jastrow.cpp</itemPath>
       <itemPath>Kinetic.cpp</itemPath>
       <itemPath>MC_Brute_Force.cpp</itemPath>
       <itemPath>MC_Importance_Sampling.cpp</itemPath>
+      <itemPath>Orbital.cpp</itemPath>
       <itemPath>Potential.cpp</itemPath>
       <itemPath>QD.ini</itemPath>
       <itemPath>QVMC.cpp</itemPath>
+      <itemPath>Slater.cpp</itemPath>
       <itemPath>Wavefunction.cpp</itemPath>
+      <itemPath>defines.h</itemPath>
       <itemPath>main.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
@@ -85,7 +94,7 @@
       <compileType>
         <ccTool>
           <commandlineTool>mpicxx </commandlineTool>
-          <commandLine>-o3 -DMPICH_IGNORE_CXX_SEEK -Werror</commandLine>
+          <commandLine>-o3 -DMPICH_IGNORE_CXX_SEEK -llapack -lblas -larmadillo</commandLine>
         </ccTool>
       </compileType>
     </conf>

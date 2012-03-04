@@ -13,9 +13,8 @@
 class electron_interaction: public Interaction {
 public:
     electron_interaction(int, int);
-    virtual ~electron_interaction();
     
-    virtual double evaluate( double** );
+    virtual double evaluate( mat );
 private:
 
 };

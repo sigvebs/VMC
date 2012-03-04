@@ -7,6 +7,13 @@
 
 #include "Jastrow.h"
 
+/*******************************************************************
+ * 
+ * NAME :               Jastrow( double** r )
+ *
+ * DESCRIPTION :        Constructor.
+ * 
+ */
 Jastrow::Jastrow(int dim, int n_particles, double beta) {
     this->dim = dim;
     this->n_particles = n_particles;

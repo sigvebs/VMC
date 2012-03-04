@@ -6,7 +6,7 @@
  */
 
 #include "Kinetic_electron.h"
-#include "lib.h"
+#include "includes/lib.h"
 Kinetic_electron::Kinetic_electron( int dim, int n_particles ): Kinetic( dim, n_particles ){
 }
 
@@ -18,6 +18,7 @@ Kinetic_electron::Kinetic_electron( int dim, int n_particles ): Kinetic( dim, n_
  * 
  */
 double Kinetic_electron::evaluate( double** r ){
+    /*
     // the step length and its squared inverse for the second derivative 
 #define h 0.001
 #define h2 1000000
@@ -61,6 +62,7 @@ double Kinetic_electron::evaluate( double** r ){
   // include electron mass and hbar squared and divide by wave function 
   e_kinetic = 0.5*h2*e_kinetic/wfold;
   return e_kinetic;
+     * **/
 }
 
 Kinetic_electron::~Kinetic_electron() {

@@ -7,6 +7,7 @@
 
 #ifndef HAMILTONIAN_H
 #define	HAMILTONIAN_H
+#include <armadillo>
 #include "Wavefunction.h"
 #include "Kinetic.h"
 #include "Potential.h"
@@ -16,10 +17,8 @@
 class Hamiltonian {
 public:
     Hamiltonian();
-    //Hamiltonian( Wavefunction* );
-    Hamiltonian( Potential*, Interaction*, Kinetic*, bool );
-    virtual ~Hamiltonian();
-    double get_energy( double** r);
+    Hamiltonian(Potential*, Interaction*, Kinetic*, bool);
+    double get_energy(mat);
 protected:
     // Protected variables
     Wavefunction* wf;
@@ -30,15 +29,15 @@ protected:
     double charge;
     bool analytic_energy;
     bool jastrow;
-    
+
     // New variabels
     Potential* potential;
     Interaction* interaction;
     Kinetic* kinetic;
-    
+
     // Protected functions
-    double get_analytic_energy( double** );
-    double get_numerical_energy( double** r );
+    double get_analytic_energy(mat);
+    double get_numerical_energy(mat);
 };
 
 #endif	/* HAMILTONIAN_H */

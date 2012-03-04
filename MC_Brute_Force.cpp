@@ -4,14 +4,11 @@
  * 
  * Created on 17. februar 2012, 14:43
  */
-
+#include <armadillo>
 #include "MC_Brute_Force.h"
-#include "lib.h"
+#include "includes/lib.h"
 
 MC_Brute_Force::MC_Brute_Force(Hamiltonian* ht, Wavefunction* wf, int mc_cycles, long idum) : QVMC(ht, wf, mc_cycles, idum) {
-}
-
-MC_Brute_Force::~MC_Brute_Force() {
 }
 
 /*******************************************************************
@@ -46,7 +43,6 @@ void MC_Brute_Force::solve() {
  * DESCRIPTION :        Coming
  */
 void MC_Brute_Force::mc_sampling(int cycles, double step_length, int& accepted, double& total_energy, double& total_energy_sq) {
-    int i, j;
     double wf_old, wf_new;
     double delta_e, loc_energy, loc_energy_sq;
 
@@ -54,43 +50,47 @@ void MC_Brute_Force::mc_sampling(int cycles, double step_length, int& accepted, 
     int dim = wf->getDim();
 
     // Initiating variables
-    loc_energy = loc_energy_sq = delta_e = 0;
+    loc_energy = 0;
+    loc_energy_sq = 0;
+    delta_e = 0;
     accepted = 0;
 
     // Initial position of the electrons
-    double **r_old, **r_new;
-    r_old = (double **) matrix(n_particles, dim, sizeof (double));
-    r_new = (double **) matrix(n_particles, dim, sizeof (double));
+    mat r_old = zeros<mat > (n_particles, dim);
+    mat r_new = zeros<mat > (n_particles, dim);
 
-    for (i = 0; i < n_particles; i++) {
-        for (j = 0; j < dim; j++) {
-            r_new[i][j] = 0;
-            r_old[i][j] = step_length * (ran3(&idum) - 0.5);
+    for (int i = 0; i < n_particles; i++) {
+        for (int j = 0; j < dim; j++) {
+            r_old(i, j) = step_length * (ran3(&idum) - 0.5);
         }
     }
 
-    wf_old = wf->evaluate(r_old);
+    wf->set_r_new(r_old);
+    wf->evaluate_new();
+    wf->accept_move();
+
+    wf_old = wf->get_wf_old();
 
     // Monte Carlo cycles
     for (int sample = 0; sample < (cycles + thermalization); sample++) {
 
         // Changes the position of the electrons
-        for (i = 0; i < n_particles; i++) {
-            for (j = 0; j < dim; j++) {
-                r_new[i][j] = r_old[i][j] + step_length * (ran3(&idum) - 0.5);
+        for (int i = 0; i < n_particles; i++) {
+            for (int j = 0; j < dim; j++) {
+                r_new(i, j) = r_old(i, j) + step_length * (ran3(&idum) - 0.5);
             }
         }
 
-        wf_new = wf->evaluate(r_new);
+        wf->set_r_new(r_new);
+        wf->evaluate_new();
+        wf_new = wf->get_wf_new();
 
         // Metropolis test 
-        if (ran2(&idum) <= wf_new * wf_new / wf_old / wf_old) {
-            for (i = 0; i < n_particles; i++) {
-                for (j = 0; j < dim; j++)
-                    r_old[i][j] = r_new[i][j];
-            }
+        if (ran3(&idum) <= wf_new * wf_new / wf_old / wf_old) {
+            r_old = r_new;
             wf_old = wf_new;
-            if (sample > thermalization) 
+            wf->accept_move();
+            if (sample > thermalization)
                 accepted++;
         }
 
@@ -105,10 +105,6 @@ void MC_Brute_Force::mc_sampling(int cycles, double step_length, int& accepted, 
     // Computing the total energy
     total_energy = loc_energy / cycles;
     total_energy_sq = loc_energy_sq / cycles;
-
-    // Freeing memory
-    free_matrix((void**) r_old);
-    free_matrix((void**) r_new);
 }
 
 /*******************************************************************
