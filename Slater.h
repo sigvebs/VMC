@@ -15,7 +15,7 @@ using namespace arma;
 
 class Slater {
 public:
-    Slater(int, int, double);
+    Slater(int, int, Orbital*);
     void set_matrix();
     double get_det();
     void set_position(mat);
@@ -28,16 +28,16 @@ public:
     void compute_inverse();
 private:
     Orbital *orbital;
-    double w; // Check
-    mat r_current; // Check
-    mat Dp; // Check
-    mat Dm; // Check
-    mat inverse_Dp; // Check
-    mat inverse_Dm; // Check
+    double w;
+    mat r_current; 
+    mat Dp; 
+    mat Dm; 
+    mat inverse_Dp; 
+    mat inverse_Dm; 
     ivec nx;
     ivec ny;
-    int dim; // Check
-    int N; // Check
+    int dim; 
+    int N; 
 
     rowvec gradient;
 };

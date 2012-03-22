@@ -7,6 +7,9 @@
 
 #ifndef MC_Brute_Force_H
 #define	MC_Brute_Force_H
+
+#include <armadillo>
+#include "includes/lib.h"
 #include "QVMC.h"
 
 class MC_Brute_Force : public QVMC {

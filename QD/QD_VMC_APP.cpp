@@ -24,15 +24,19 @@ using namespace std;
 #include "../QD_electron_interaction.h"
 #include "../Kinetic.h"
 #include "../Kinetic_electron.h"
+#include "../Orbital.h"
+#include "../Jastrow.h"
+#include "../MC_Brute_Force.h"
+#include "../MC_Importance_Sampling.h"
+#include "../QVMC.h"
 
 // QD imports
 #include "QD_VMC_APP.h"
-#include "../QVMC.h"
 #include "QD_wavefunction.h"
 #include "QD_Harmonic_osc.h"
 #include "QD_kinetic.h"
-#include "../MC_Brute_Force.h"
-#include "../MC_Importance_Sampling.h"
+#include "QD_Orbital.h"
+#include "QD_Jastrow.h"
 
 /*******************************************************************
  * 
@@ -52,7 +56,7 @@ void QD_VMC_APP::QD_run_VMC() {
     MPI_Comm_size(MPI_COMM_WORLD, &numproc);
     MPI_Comm_rank(MPI_COMM_WORLD, &my_rank);
 
-    idum -= my_rank - time(NULL);
+    idum -= my_rank; // - time(NULL);
     mc_cycles /= numproc;
 
     // Initiating Energy classes
@@ -69,7 +73,11 @@ void QD_VMC_APP::QD_run_VMC() {
         for (int j = 0; j < b_steps; j++) {
             b = b_start + j*delta_b;
 
-            Wavefunction* wf = new QD_wavefunction(dim, n_particles, a, b, w, jastrow);
+            // Generating the total wave function.
+            Jastrow* jastrow_function = new QD_Jastrow(dim, n_particles, b);
+            Orbital* orbital = new QD_Orbital(dim, a, w);
+            Wavefunction* wf = new QD_wavefunction(dim, n_particles, a, b, w, jastrow, orbital, jastrow_function);
+            
             kinetic->set_wf(wf);
 
             if (sampling == 0)
@@ -99,7 +107,7 @@ void QD_VMC_APP::QD_run_VMC() {
                         << ", Variance = " << tot_energy_sq - tot_energy * tot_energy
                         << ", Sigma = " << sqrt(tot_energy_sq - tot_energy * tot_energy)
                         << ", Accepted = " << accepted / mc_cycles
-                        << ", MC cycles = " << mc_cycles*numproc
+                        << ", MC cycles = " << mc_cycles * numproc
                         << "\n";
             }
             paramset[i][j]->set_energy(tot_energy);
@@ -136,7 +144,7 @@ void QD_VMC_APP::QD_write_to_file() {
     // Running over all variational parameters
     for (int i = 0; i < a_steps; i++) {
         a = a_start + i*delta_a;
-        //paramset[i] = new QVMC*[b_steps];
+        
         for (int j = 0; j < b_steps; j++) {
             b = b_start + j*delta_b;
             energy = paramset[i][j]->get_energy();
@@ -151,7 +159,8 @@ void QD_VMC_APP::QD_write_to_file() {
  * 
  * NAME :               QD_VMC_APP( )
  *
- * DESCRIPTION :        Constructor
+ * DESCRIPTION :        Constructor. Reads data from an QD.ini
+ *                      which contains all runtime variables.
  * 
  */
 QD_VMC_APP::QD_VMC_APP() {

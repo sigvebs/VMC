@@ -14,13 +14,11 @@
  *
  * DESCRIPTION :        Constructor
  */
+
 QVMC::QVMC(Hamiltonian* ht, Wavefunction* wf, int mc_cycles, long idum) {
     this->ht = ht;
     this->wf = wf;
     this->mc_cycles = mc_cycles;
     this->idum = idum;
     thermalization = (int) 1e4;
-}
-
-QVMC::~QVMC() {
 }

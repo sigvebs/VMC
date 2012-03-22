@@ -16,7 +16,7 @@ public:
     
     // Functions
     virtual void solve();
-    void ic_sampling(int, int&, double&, double&);
+    void run_importance_sampling(int, int&, double&, double&);
  
 protected:
     double dt;    

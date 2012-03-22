@@ -15,8 +15,6 @@ class QVMC {
 public:
     QVMC();
     QVMC(Hamiltonian*, Wavefunction*, int, long);
-    QVMC(const QVMC& orig);
-    virtual ~QVMC();
 
     // Functions
     virtual void solve() = 0;

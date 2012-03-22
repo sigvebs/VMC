@@ -8,15 +8,17 @@
 #ifndef WAVEFUNCTION_H
 #define	WAVEFUNCTION_H
 
+#include <armadillo>
+
 #include "Jastrow.h"
 #include "Hermite.h"
+#include "Orbital.h"
 #include "Slater.h"
-#include <armadillo>
 
 class Wavefunction {
 public:
     Wavefunction();
-    Wavefunction(int, int, double, double, bool);
+    Wavefunction(int, int, double, double, bool, Orbital*, Jastrow*);
     
     // Functions
     int getNParticles(){ return n_particles;};
@@ -39,6 +41,7 @@ protected:
     mat r_new;
     Jastrow *jas;
     Slater *slater;
+    Orbital *orbital;
     int dim;
     int n_particles;
     double alpha;

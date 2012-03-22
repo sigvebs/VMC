@@ -6,9 +6,6 @@
  */
 
 #include "QD_wavefunction.h"
-#include <math.h>
-#include "../includes/lib.h"
-#include "QD_Jastrow.h"
 
 /*******************************************************************
  *
@@ -17,6 +14,7 @@
  * DESCRIPTION :        Constructor
  *
  */
-QD_wavefunction::QD_wavefunction(int dim, int n_particles, double alpha, double beta, double w, bool jastrow) : w(w), Wavefunction(dim, n_particles, alpha, beta, jastrow) {
+QD_wavefunction::QD_wavefunction(int dim, int n_particles, double alpha, double beta, double w, bool jastrow, Orbital* orbital, Jastrow* jas)
+:  w(w), Wavefunction(dim, n_particles, alpha, beta, jastrow, orbital, jas) {
 
 }

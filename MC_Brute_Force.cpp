@@ -4,9 +4,7 @@
  * 
  * Created on 17. februar 2012, 14:43
  */
-#include <armadillo>
 #include "MC_Brute_Force.h"
-#include "includes/lib.h"
 
 MC_Brute_Force::MC_Brute_Force(Hamiltonian* ht, Wavefunction* wf, int mc_cycles, long idum) : QVMC(ht, wf, mc_cycles, idum) {
 }
@@ -94,7 +92,7 @@ void MC_Brute_Force::mc_sampling(int cycles, double step_length, int& accepted, 
                 accepted++;
         }
 
-        // Computing the local energy
+        // Sampling the local energy
         if (sample > thermalization) {
             delta_e = ht->get_energy(r_old);
             loc_energy += delta_e;
@@ -111,7 +109,8 @@ void MC_Brute_Force::mc_sampling(int cycles, double step_length, int& accepted, 
  * 
  * NAME :               optimal_step_length()
  *
- * DESCRIPTION :        Coming
+ * DESCRIPTION :        Calulates the optimal step length using
+ *                      Newtons method.
  */
 double MC_Brute_Force::optimal_step_length() {
     double min, max, tolerance;

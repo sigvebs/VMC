@@ -31,8 +31,8 @@ for i in range( a_steps ):
 figure(1, size=(600, 400), fgcolor=(1, 1, 1), bgcolor=(0.5, 0.5, 0.5))
 
 # Sur
-s = surf(x,y,f, colormap='Spectral',warp_scale='auto' );
-s_w = surf(x,y,f, representation='wireframe',  color=(.2, .2, .2), line_width=0.6, transparent=True, warp_scale='auto');
+s = surf(x, y, f, colormap='Spectral',warp_scale='auto' );
+s_w = surf(x, y, f, representation='wireframe',  color=(.2, .2, .2), line_width=0.6, transparent=True, warp_scale='auto');
 
 outline(s, color=(.7, .7, .7))
 axes(s, color=(.7, .7, .7), xlabel=r'alpha', ylabel='Beta', zlabel='E', nb_labels=4);

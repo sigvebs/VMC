@@ -12,7 +12,6 @@
 #include "Kinetic.h"
 #include "Potential.h"
 #include "Interaction.h"
-#include "Kinetic.h"
 
 class Hamiltonian {
 public:
@@ -30,7 +29,6 @@ protected:
     bool analytic_energy;
     bool jastrow;
 
-    // New variabels
     Potential* potential;
     Interaction* interaction;
     Kinetic* kinetic;

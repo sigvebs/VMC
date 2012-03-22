@@ -5,11 +5,10 @@
  * Created on February 7, 2012, 7:36 PM
  */
 
-#include "Coulomb_pot.h" 
 #include "Hamiltonian.h"
 #include <math.h>
-#include "includes/lib.h"
 #include <iostream>
+#include "includes/lib.h"
 
 /*******************************************************************
  * 

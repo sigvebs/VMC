@@ -36,7 +36,7 @@ void MC_Importance_Sampling::solve() {
     double energy, energy_sq;
     int accepted;
 
-    ic_sampling(mc_cycles, accepted, energy, energy_sq);
+    run_importance_sampling(mc_cycles, accepted, energy, energy_sq);
 
     // Storing results
     this->energy = energy;
@@ -46,13 +46,13 @@ void MC_Importance_Sampling::solve() {
 
 /*******************************************************************
  * 
- * NAME :               ic_sampling( int cycles, double step_length, 
+ * NAME :               IS_sampling( int cycles, double step_length, 
  *                      int& accepted, double& total_energy, 
  *                      double& total_energy_sq)
  *
  * DESCRIPTION :        Importance sampling
  */
-void MC_Importance_Sampling::ic_sampling(int cycles, int& accepted, double& energy, double& energy_sq) {
+void MC_Importance_Sampling::run_importance_sampling(int cycles, int& accepted, double& energy, double& energy_sq) {
     double wf_old, wf_new, delta_e, greens_function;
 
     int n_particles = wf->getNParticles();
@@ -111,8 +111,8 @@ void MC_Importance_Sampling::ic_sampling(int cycles, int& accepted, double& ener
             }
 
             greens_function = exp(0.5 * greens_function);
-
-            // Metropolis-Hastings acceptance test .
+            
+            // Metropolis-Hastings acceptance test.
             if (ran3(&idum) <= greens_function * wf_new * wf_new / wf_old / wf_old) {
                 r_old = r_new;
                 q_force_old = q_force_new;
@@ -135,8 +135,8 @@ void MC_Importance_Sampling::ic_sampling(int cycles, int& accepted, double& ener
                 energy += delta_e;
                 energy_sq += delta_e*delta_e;
             }
-        }
-    }
+        } // End p - particles.
+    } // End MC cycles.
 
     // Computing the total energy
     energy = energy / cycles / n_particles;

@@ -6,8 +6,8 @@
  */
 
 #include "Wavefunction.h"
+
 #include <math.h>
-#include "QD/QD_Jastrow.h"
 #include "includes/lib.h"
 #include "defines.h"
 
@@ -19,11 +19,10 @@
  * DESCRIPTION :        Constructor
  * 
  */
-Wavefunction::Wavefunction(int dim, int n_particles, double alpha, double beta, bool jastrow)
-: dim(dim), n_particles(n_particles), alpha(alpha), beta(beta), jastrow(jastrow) {
-
-    slater = new Slater(dim, n_particles, alpha);
-    jas = new QD_Jastrow(dim, n_particles, beta);
+Wavefunction::Wavefunction(int dim, int n_particles, double alpha, double beta, bool jastrow, Orbital* orbital, Jastrow* jas)
+: dim(dim), n_particles(n_particles), alpha(alpha), beta(beta), jastrow(jastrow), orbital(orbital), jas(jas) {
+    
+    slater = new Slater(dim, n_particles, orbital);
 
     r_old = zeros <mat > (n_particles, dim);
     r_new = zeros <mat > (n_particles, dim);
@@ -87,8 +86,6 @@ mat Wavefunction::q_force(mat r) {
         }
     }
 #else
-    //slater->set_position(r);
-    //slater->set_matrix();
     slater->compute_inverse();
 
     for (int i = 0; i < n_particles; i++) {
@@ -151,7 +148,7 @@ void Wavefunction::set_r_new(mat r_new) {
  * NAME :               get_laplacian(mat r)
  *
  * DESCRIPTION :        Returns the Laplacian. Right now it returns 
- *                      the kinetic energy - exept for the -0.5 factor.
+ *                      the kinetic energy - except for the -0.5 factor.
  * 
  */
 double Wavefunction::get_laplacian(mat r) {

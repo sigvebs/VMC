@@ -7,7 +7,6 @@
 
 #include <iostream>
 #include "Slater.h"
-#include "QD/QD_Orbital.h"
 
 /*******************************************************************
  * 
@@ -17,12 +16,8 @@
  * DESCRIPTION :        Constructor.
  * 
  */
-Slater::Slater(int dim, int n_particles, double alpha) : dim(dim), N(n_particles / 2) {
-
-    /***** TMP HARDCODED MUST BE CHANGED *****/
-    w = 1.0;
-    orbital = new QD_Orbital(dim, alpha, w);
-    /****************************************/
+Slater::Slater(int dim, int n_particles, Orbital *orbital) 
+: dim(dim), N(n_particles / 2), orbital(orbital) {
 
     Dp = zeros(N, N);
     Dm = zeros(N, N);
@@ -85,8 +80,18 @@ void Slater::set_matrix() {
  * 
  */
 void Slater::compute_inverse() {
-    inverse_Dp = inv(Dp);
-    inverse_Dm = inv(Dm);
+    try {
+        inverse_Dp = inv(Dp);
+        inverse_Dm = inv(Dm);
+
+    } catch (const std::runtime_error &e) {
+        cout << r_current << endl;
+        cout << "Dp" << endl;
+        cout << Dp << endl;
+        cout << "Dm" << endl;
+        cout << Dm << endl;
+        exit(0);
+    }
 }
 
 /*******************************************************************
@@ -114,11 +119,11 @@ double Slater::get_laplacian(int i) {
     double sum = 0;
     if (i < N) {
         for (int j = 0; j < N; j++) { // For DP
-            sum += orbital->evaluate_laplacian(r_current.row(i), nx(j), ny(j)) * inverse_Dp(i, j); 
+            sum += orbital->evaluate_laplacian(r_current.row(i), nx(j), ny(j)) * inverse_Dp(i, j);
         }
     } else {
         for (int j = 0; j < N; j++) { // For Dm
-            sum += orbital->evaluate_laplacian(r_current.row(i), nx(j), ny(j)) * inverse_Dm(i - N, j); 
+            sum += orbital->evaluate_laplacian(r_current.row(i), nx(j), ny(j)) * inverse_Dm(i - N, j);
         }
     }
 

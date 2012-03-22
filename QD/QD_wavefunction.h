@@ -11,7 +11,7 @@
 
 class QD_wavefunction: public Wavefunction {
 public:
-    QD_wavefunction( int, int, double, double, double, bool );
+    QD_wavefunction( int, int, double, double, double, bool, Orbital*, Jastrow* );
 private:
     double w;
 };
