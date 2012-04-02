@@ -16,28 +16,38 @@ using namespace arma;
 class Slater {
 public:
     Slater(int, int, Orbital*);
-    void set_matrix();
-    double get_det();
-    void set_position(mat);
+    void update_matrix();
+    void set_position(mat, int);
     double get_laplacian(int);
     void compute_gradient(int);
-
+    double get_ratio();
     rowvec get_gradient() {
         return gradient;
     };
-    void compute_inverse();
-private:
+    void update_inverse();
+    void accept_new_position();
+    void init();
+protected:
     Orbital *orbital;
     double w;
-    mat r_current; 
+    mat r_new;
+    mat r_old;
+    
     mat Dp; 
     mat Dm; 
-    mat inverse_Dp; 
-    mat inverse_Dm; 
+    mat Dp_new;
+    mat Dm_new;
+    mat Dp_inv; 
+    mat Dm_inv;
+    mat Dp_inv_new; 
+    mat Dm_inv_new;
+    
     ivec nx;
     ivec ny;
     int dim; 
     int N; 
+    int n_particles;
+    int active_particle;
 
     rowvec gradient;
 };

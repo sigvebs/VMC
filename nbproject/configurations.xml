@@ -44,6 +44,7 @@
           <itemPath>QD/QD_Jastrow.h</itemPath>
           <itemPath>QD/QD_Orbital.h</itemPath>
           <itemPath>QD/QD_VMC_APP.h</itemPath>
+          <itemPath>QD_electron_interaction.h</itemPath>
           <itemPath>QD/QD_kinetic.h</itemPath>
           <itemPath>QD/QD_wavefunction.h</itemPath>
         </logicalFolder>
@@ -52,7 +53,6 @@
         <itemPath>QD/QD_Orbital.cpp</itemPath>
         <itemPath>QD/QD_VMC_APP.cpp</itemPath>
         <itemPath>QD_electron_interaction.cpp</itemPath>
-        <itemPath>QD_electron_interaction.h</itemPath>
         <itemPath>QD/QD_kinetic.cpp</itemPath>
         <itemPath>QD/QD_wavefunction.cpp</itemPath>
       </logicalFolder>

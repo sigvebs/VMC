@@ -12,7 +12,6 @@
 class MC_Importance_Sampling: public QVMC {
 public:
     MC_Importance_Sampling(Hamiltonian* ht, Wavefunction* wf, int mc_cycles, long idum);
-    virtual ~MC_Importance_Sampling();
     
     // Functions
     virtual void solve();
@@ -20,9 +19,9 @@ public:
  
 protected:
     double dt;    
-    float fn[128];
-    int kn[128];
-    float wn[128];
+    //float fn[128];
+    //int kn[128];
+    //float wn[128];
     double D;
     double gaussian_deviate(long * idum);
 };

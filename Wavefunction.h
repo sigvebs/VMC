@@ -27,15 +27,17 @@ public:
     double getBeta(){ return beta;};
     double get_energy( double** );
     void set_Jastrow( bool jastrow){ this->jastrow=jastrow;};
-    
+    double get_ratio();
     double evaluate( mat );
-    mat q_force( mat );
-    void set_r_new(mat r_new);
+    mat q_force();
+    void set_r_new(mat, int);
     void evaluate_new();
     double get_wf_old(){ return WF_old;};
     double get_wf_new(){ return WF_new;};
     void accept_move();
-    double get_laplacian(mat);
+    double get_laplacian(){return energy;};
+    void calculate_laplacian();
+    void init_slater();
 protected:
     mat r_old;
     mat r_new;
@@ -49,6 +51,8 @@ protected:
     bool jastrow;
     double WF_old;
     double WF_new;
+    int active_particle;
+    double energy;
 };
 
 #endif	/* WAVEFUNCTION_H */

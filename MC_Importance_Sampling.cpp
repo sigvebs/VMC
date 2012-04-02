@@ -21,9 +21,6 @@ MC_Importance_Sampling::MC_Importance_Sampling(Hamiltonian* ht, Wavefunction* wf
     D = 0.5; // Diffusion constant.
 };
 
-MC_Importance_Sampling::~MC_Importance_Sampling() {
-}
-
 /*******************************************************************
  * 
  * NAME :               mc_sampling( int cycles, double step_length, 
@@ -53,7 +50,7 @@ void MC_Importance_Sampling::solve() {
  * DESCRIPTION :        Importance sampling
  */
 void MC_Importance_Sampling::run_importance_sampling(int cycles, int& accepted, double& energy, double& energy_sq) {
-    double wf_old, wf_new, delta_e, greens_function;
+    double delta_e, greens_function, R;
 
     int n_particles = wf->getNParticles();
     int dim = wf->getDim();
@@ -78,11 +75,10 @@ void MC_Importance_Sampling::run_importance_sampling(int cycles, int& accepted, 
     r_new = r_old;
 
     // Evalutating the Quantum Force and Wave Function in the inital position.
-    wf->set_r_new(r_old);
-    wf->evaluate_new();
+    wf->set_r_new(r_old, 0);
+    wf->init_slater();
+    q_force_old = wf->q_force();
     wf->accept_move();
-
-    wf_old = wf->get_wf_old();
 
     // Monte Carlo cycles
     for (int sample = 0; sample < (cycles + thermalization); sample++) {
@@ -94,39 +90,50 @@ void MC_Importance_Sampling::run_importance_sampling(int cycles, int& accepted, 
             for (int i = 0; i < dim; i++) {
                 r_new(active, i) = r_old(active, i) + D * q_force_old(active, i) * dt + gaussian_deviate(&idum) * sqrt(dt);
             }
-
             // Evaluating the Wave Function in r_new.
-            wf->set_r_new(r_new);
+            wf->set_r_new(r_new, active);
             wf->evaluate_new();
-            wf_new = wf->get_wf_new();
 
             // Updating the quantum force.
-            q_force_new = wf->q_force(r_new);
+            q_force_new = wf->q_force();
 
             // Calculating the ratio between the Green's functions.
             greens_function = 0;
             for (int j = 0; j < dim; j++) {
                 greens_function += (q_force_old(active, j) + q_force_new(active, j))
-                        * (D * dt * 0.5 * (q_force_old(active, j) - q_force_new(active, j)) - (r_new(active, j) - r_old(active, j)));
+                        * (D * dt * 0.5 * (q_force_old(active, j)
+                        - q_force_new(active, j)) - (r_new(active, j) - r_old(active, j)));
             }
 
             greens_function = exp(0.5 * greens_function);
-            
+
+            // If the quantum force is to large we use a brute force step instead.
+            if (q_force_new.max() > 20) {
+                greens_function = 1;
+                // Calculating new trial position.
+                for (int i = 0; i < dim; i++) {
+                    r_new(active, i) = r_old(active, i) + gaussian_deviate(&idum) * sqrt(dt);
+                }
+                wf->set_r_new(r_new, active);
+                wf->evaluate_new();
+                q_force_new = wf->q_force();
+            }
+
             // Metropolis-Hastings acceptance test.
-            if (ran3(&idum) <= greens_function * wf_new * wf_new / wf_old / wf_old) {
+            R = wf->get_ratio();
+            R = R * R*greens_function;
+
+            if (ran3(&idum) <= R) {
                 r_old = r_new;
                 q_force_old = q_force_new;
-                wf_old = wf_new;
+
                 wf->accept_move();
-                if (sample > thermalization) {
+
+                if (sample > thermalization)
                     accepted++;
-                }
             } else {
                 // If the move is not accepted the position is reset.
-                for (int i = 0; i < n_particles; i++) {
-                    for (int j = 0; j < dim; j++)
-                        r_new(i, j) = r_old(i, j);
-                }
+                r_new = r_old;
             }
 
             // Computing the local energy
@@ -142,6 +149,7 @@ void MC_Importance_Sampling::run_importance_sampling(int cycles, int& accepted, 
     energy = energy / cycles / n_particles;
     energy_sq = energy_sq / cycles / n_particles;
     accepted /= n_particles;
+
 }
 
 /*******************************************************************

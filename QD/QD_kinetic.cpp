@@ -62,7 +62,7 @@ double QD_kinetic::evaluate(mat r) {
     // Analytic solution with the Jastrow factor.
     double e_kin = 0;
 
-    e_kin += wf->get_laplacian(r);
+    e_kin += wf->get_laplacian();
 
     e_kin = -0.5 * e_kin;
 

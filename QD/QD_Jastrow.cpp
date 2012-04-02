@@ -50,7 +50,8 @@ double QD_Jastrow::evaluate(mat r) {
         }
     }
 
-    return exp(value);
+    // The exp() is now added in the WF.
+    return value;
 }
 
 /*******************************************************************

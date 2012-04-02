@@ -52,7 +52,7 @@ void MC_Brute_Force::mc_sampling(int cycles, double step_length, int& accepted, 
     loc_energy_sq = 0;
     delta_e = 0;
     accepted = 0;
-
+    /*
     // Initial position of the electrons
     mat r_old = zeros<mat > (n_particles, dim);
     mat r_new = zeros<mat > (n_particles, dim);
@@ -103,6 +103,7 @@ void MC_Brute_Force::mc_sampling(int cycles, double step_length, int& accepted, 
     // Computing the total energy
     total_energy = loc_energy / cycles;
     total_energy_sq = loc_energy_sq / cycles;
+     * */
 }
 
 /*******************************************************************

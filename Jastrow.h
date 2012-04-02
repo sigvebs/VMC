@@ -18,6 +18,7 @@ public:
     virtual double evaluate(mat) = 0;
     virtual void compute_gradient(mat, int) = 0;
     virtual double get_laplacian(mat, int) = 0;
+    double get_ratio(mat, mat);
 protected:
     int dim;
     int n_particles;

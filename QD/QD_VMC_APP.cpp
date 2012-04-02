@@ -56,7 +56,7 @@ void QD_VMC_APP::QD_run_VMC() {
     MPI_Comm_size(MPI_COMM_WORLD, &numproc);
     MPI_Comm_rank(MPI_COMM_WORLD, &my_rank);
 
-    idum -= my_rank; // - time(NULL);
+    idum -= my_rank - time(NULL);
     mc_cycles /= numproc;
 
     // Initiating Energy classes

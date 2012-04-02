@@ -21,11 +21,28 @@
  */
 Wavefunction::Wavefunction(int dim, int n_particles, double alpha, double beta, bool jastrow, Orbital* orbital, Jastrow* jas)
 : dim(dim), n_particles(n_particles), alpha(alpha), beta(beta), jastrow(jastrow), orbital(orbital), jas(jas) {
-    
+
     slater = new Slater(dim, n_particles, orbital);
 
     r_old = zeros <mat > (n_particles, dim);
     r_new = zeros <mat > (n_particles, dim);
+}
+
+/*******************************************************************
+ * 
+ * NAME :               get_ratio();
+ *
+ * DESCRIPTION :        Returns the R-ratio used in the Metropolis 
+ *                      test.
+ * 
+ */
+double Wavefunction::get_ratio() {
+    double R = slater->get_ratio();
+
+    if (jastrow) {
+        R *= jas->get_ratio(r_new, r_old);
+    }
+    return R;
 }
 
 /*******************************************************************
@@ -37,18 +54,23 @@ Wavefunction::Wavefunction(int dim, int n_particles, double alpha, double beta, 
  */
 
 double Wavefunction::evaluate(mat r) {
-
+    double psi;
+/*
     // Calulating the Slater determinant.
-    slater->set_position(r);
-    slater->set_matrix();
-    double psi = slater->get_det();
+    for (int p = 0; p < n_particles; p++) {
+        slater->set_position(r, p);
+        slater->set_matrix();
+    }
+
+    psi = slater->get_det();
 
     // Adding the Jastrow part
     if (jastrow) {
-        psi *= jas->evaluate(r);
+        psi *= exp(jas->evaluate(r));
     }
-
+*/
     return psi;
+    cout << "Evaluate\n";
 }
 
 /*******************************************************************
@@ -61,12 +83,12 @@ double Wavefunction::evaluate(mat r) {
  * 
  */
 
-mat Wavefunction::q_force(mat r) {
-    mat q_f = zeros<mat > (n_particles, dim);
-    
+mat Wavefunction::q_force() {
+    mat q_f = zeros(n_particles, dim);
+
 #if NUMERICAL
     double h = 0.05;
-    
+
     mat r_plus = zeros<mat > (n_particles, dim);
     mat r_minus = zeros<mat > (n_particles, dim);
 
@@ -75,7 +97,7 @@ mat Wavefunction::q_force(mat r) {
     r_minus = r;
 
     // Calculating the Quantum Force numerically.
-    
+
     for (int i = 0; i < n_particles; i++) {
         for (int j = 0; j < dim; j++) {
             r_plus(i, j) += h;
@@ -86,17 +108,16 @@ mat Wavefunction::q_force(mat r) {
         }
     }
 #else
-    slater->compute_inverse();
-
+    //FIX: It is only necessary to calulate the gradient of the active particle.
     for (int i = 0; i < n_particles; i++) {
         // Finding the Orbitals' Laplacian.
         slater->compute_gradient(i);
-        jas->compute_gradient(r, i);
-        
+        jas->compute_gradient(r_new, i);
+
         rowvec gradient_orbital = slater->get_gradient();
         rowvec gradient_jastrow = jas->get_gradient();
-        
-        q_f.row(i) = 2 * (gradient_orbital + gradient_jastrow) ;
+
+        q_f.row(i) = 2 * (gradient_orbital + gradient_jastrow);
     }
 #endif
     return q_f;
@@ -110,14 +131,8 @@ mat Wavefunction::q_force(mat r) {
  * 
  */
 void Wavefunction::evaluate_new() {
-    // Calulating the Slater determinant.
-    slater->set_position(r_new);
-    slater->set_matrix();
-    WF_new = slater->get_det();
-
-    // Adding the Jastrow part
-    if (jastrow)
-        WF_new *= jas->evaluate(r_new);
+    slater->set_position(r_new, active_particle);
+    slater->update_matrix();
 }
 
 /*******************************************************************
@@ -129,7 +144,9 @@ void Wavefunction::evaluate_new() {
  */
 void Wavefunction::accept_move() {
     r_old = r_new;
-    WF_old = WF_new;
+    slater->update_inverse();
+    slater->accept_new_position();
+    calculate_laplacian();
 }
 
 /*******************************************************************
@@ -139,42 +156,49 @@ void Wavefunction::accept_move() {
  * DESCRIPTION :        Sets a new position.
  * 
  */
-void Wavefunction::set_r_new(mat r_new) {
+void Wavefunction::set_r_new(mat r_new, int active_particle) {
     this->r_new = r_new;
+    this->active_particle = active_particle;
 }
 
 /*******************************************************************
  * 
- * NAME :               get_laplacian(mat r)
+ * NAME :               init_slater()
  *
- * DESCRIPTION :        Returns the Laplacian. Right now it returns 
- *                      the kinetic energy - except for the -0.5 factor.
+ * DESCRIPTION :        Initializes the Slater matrix with 
+ *                      the initial position matrix.
  * 
  */
-double Wavefunction::get_laplacian(mat r) {
+void Wavefunction::init_slater() {
+    slater->set_position(r_new, active_particle);
+    slater->init();
+}
 
-    // TMP combining all terms here.
-    double sum = 0;
+/*******************************************************************
+ * 
+ * NAME :               calculate_laplacian(mat r)
+ *
+ * DESCRIPTION :        Calculates the Laplcian.
+ * 
+ */
+void Wavefunction::calculate_laplacian() {
 
-    slater->set_position(r);
-    slater->set_matrix();
-    slater->compute_inverse();
+    energy = 0;
 
     // Looping through all particles
     for (int i = 0; i < n_particles; i++) {
         // Finding the Orbitals' Laplacian.
         slater->compute_gradient(i);
-        sum += slater->get_laplacian(i);
+        energy += slater->get_laplacian(i);
 
         // Finding the Jastrow factors Laplacian
-        jas->compute_gradient(r, i);
-        sum += jas->get_laplacian(r, i);
+        jas->compute_gradient(r_old, i);
+        energy += jas->get_laplacian(r_old, i);
 
         // Dot product between the gradients of the orbital- and Jastrow function.
         rowvec gradient_orbital = slater->get_gradient();
         rowvec gradient_jastrow = jas->get_gradient();
 
-        sum += 2 * dot(gradient_orbital, gradient_jastrow);
+        energy += 2 * dot(gradient_orbital, gradient_jastrow);
     }
-    return sum;
 }
