@@ -22,7 +22,7 @@ AS=as
 
 # Macros
 CND_PLATFORM=GNU-Linux-x86
-CND_CONF=Profiler
+CND_CONF=Debug_1_cpu
 CND_DISTDIR=dist
 CND_BUILDDIR=build
 
@@ -78,8 +78,8 @@ TESTFILES= \
 CFLAGS=
 
 # CC Compiler Flags
-CCFLAGS=-pg -o3 -DMPICH_IGNORE_CXX_SEEK -llapack -lblas -larmadillo
-CXXFLAGS=-pg -o3 -DMPICH_IGNORE_CXX_SEEK -llapack -lblas -larmadillo
+CCFLAGS=-o3 -DMPICH_IGNORE_CXX_SEEK -llapack -lblas -larmadillo
+CXXFLAGS=-o3 -DMPICH_IGNORE_CXX_SEEK -llapack -lblas -larmadillo
 
 # Fortran Compiler Flags
 FFLAGS=

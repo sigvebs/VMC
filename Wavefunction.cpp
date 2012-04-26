@@ -22,10 +22,11 @@
 Wavefunction::Wavefunction(int dim, int n_particles, double alpha, double beta, bool jastrow, Orbital* orbital, Jastrow* jas)
 : dim(dim), n_particles(n_particles), alpha(alpha), beta(beta), jastrow(jastrow), orbital(orbital), jas(jas) {
 
+    energy = 0;
     slater = new Slater(dim, n_particles, orbital);
 
-    r_old = zeros <mat > (n_particles, dim);
-    r_new = zeros <mat > (n_particles, dim);
+    r_old = zeros(n_particles, dim);
+    r_new = zeros(n_particles, dim);
 }
 
 /*******************************************************************
@@ -55,22 +56,14 @@ double Wavefunction::get_ratio() {
 
 double Wavefunction::evaluate(mat r) {
     double psi;
-/*
-    // Calulating the Slater determinant.
-    for (int p = 0; p < n_particles; p++) {
-        slater->set_position(r, p);
-        slater->set_matrix();
-    }
 
-    psi = slater->get_det();
+    psi = slater->evaluate(r);
 
     // Adding the Jastrow part
-    if (jastrow) {
+    if (jastrow)
         psi *= exp(jas->evaluate(r));
-    }
-*/
+
     return psi;
-    cout << "Evaluate\n";
 }
 
 /*******************************************************************
@@ -86,38 +79,43 @@ double Wavefunction::evaluate(mat r) {
 mat Wavefunction::q_force() {
     mat q_f = zeros(n_particles, dim);
 
-#if NUMERICAL
+    //#if NUMERICAL  
+#if 0
     double h = 0.05;
 
-    mat r_plus = zeros<mat > (n_particles, dim);
-    mat r_minus = zeros<mat > (n_particles, dim);
+    mat r_plus = zeros(n_particles, dim);
+    mat r_minus = zeros(n_particles, dim);
 
     // Initiating r_plus and r_minus.
-    r_plus = r;
-    r_minus = r;
+    r_plus = r_new;
+    r_minus = r_new;
 
     // Calculating the Quantum Force numerically.
-
     for (int i = 0; i < n_particles; i++) {
         for (int j = 0; j < dim; j++) {
             r_plus(i, j) += h;
             r_minus(i, j) -= h;
-            q_f(i, j) = 2 * (evaluate(r_plus) - evaluate(r_minus)) / (2 * h * evaluate(r));
-            r_plus(i, j) = r(i, j);
-            r_minus(i, j) = r(i, j);
+            q_f(i, j) = 2 * (evaluate(r_plus) - evaluate(r_minus)) / (2 * h * evaluate(r_new));
+            r_plus(i, j) = r_new(i, j);
+            r_minus(i, j) = r_new(i, j);
         }
     }
 #else
-    //FIX: It is only necessary to calulate the gradient of the active particle.
+    rowvec gradient_slater;
+    rowvec gradient_jastrow;
+    double R = slater->get_ratio();
+    
     for (int i = 0; i < n_particles; i++) {
-        // Finding the Orbitals' Laplacian.
+
+        // Finding the Orbitals' gradient.
         slater->compute_gradient(i);
+        gradient_slater = slater->get_gradient();
+
+        // Finding the Jastrow's gradient.
         jas->compute_gradient(r_new, i);
+        gradient_jastrow = jas->get_gradient();
 
-        rowvec gradient_orbital = slater->get_gradient();
-        rowvec gradient_jastrow = jas->get_gradient();
-
-        q_f.row(i) = 2 * (gradient_orbital + gradient_jastrow);
+        q_f.row(i) = 2 * (gradient_jastrow + gradient_slater)/R;
     }
 #endif
     return q_f;

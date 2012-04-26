@@ -37,7 +37,7 @@ Slater::Slater(int dim, int n_particles, Orbital *orbital)
             nx(l) = i - j;
             ny(l) = j;
             l++;
-            // Breaking the loop if the we have enough numbers.
+            // Breaking the loop if we have enough numbers.
             if (l == N)
                 i = j = N;
         }
@@ -88,11 +88,11 @@ double Slater::get_ratio() {
 
     if (i < N) { // Spin up
         for (int j = 0; j < N; j++) {
-          R += Dp_new(j, i) * Dp_inv(j, i);
+            R += Dp_new(j, i) * Dp_inv(j, i);
         }
     } else {
         for (int j = 0; j < N; j++) {
-          R += Dm_new(j, i - N) * Dm_inv(j, i - N);
+            R += Dm_new(j, i - N) * Dm_inv(j, i - N);
         }
     }
     return R;
@@ -115,12 +115,7 @@ void Slater::update_inverse() {
 
     double S;
     // TMP solution for the inverse.
-#if 0
-    if (i < N)
-        Dp_inv_new = inv(Dp_new).t();
-    else
-        Dm_inv_new = inv(Dm_new).t();
-#else
+
     double R = get_ratio();
 
     if (i < N) { // Spin up
@@ -148,13 +143,13 @@ void Slater::update_inverse() {
         for (int l = 0; l < N; l++)
             Dm_inv_new(l, i - N) = Dm_inv(l, i - N) / R;
     }
-#endif
+
 }
 
 /*******************************************************************
  * 
- * NAME :               set_position(double **r)  
- * 
+ * NAME :               set_position(mat r, int active_particle)  
+ *
  *
  * DESCRIPTION :        Sets the position.
  * 
@@ -166,10 +161,10 @@ void Slater::set_position(mat r, int active_particle) {
 
 /*******************************************************************
  * 
- * NAME :               set_matrix(double **r)  
+ * NAME :               update_matrix()  
  * 
  *
- * DESCRIPTION :        Updates the Slater mastrix with the 
+ * DESCRIPTION :        Updates the Slater matrix with the 
  *                      coordinates of the active particle.
  * 
  */
@@ -196,11 +191,11 @@ void Slater::update_matrix() {
 void Slater::accept_new_position() {
 
     if (active_particle < N) {
-        for (int i = 0; i < N; i++) 
+        for (int i = 0; i < N; i++)
             Dp(i, active_particle) = Dp_new(i, active_particle);
         Dp_inv = Dp_inv_new;
     } else {
-        for (int i = 0; i < N; i++) 
+        for (int i = 0; i < N; i++)
             Dm(i, active_particle - N) = Dm_new(i, active_particle - N);
         Dm_inv = Dm_inv_new;
     }
@@ -237,7 +232,7 @@ double Slater::get_laplacian(int i) {
  * 
  *
  * DESCRIPTION :        The functions calculates the gradient of 
- *                      particle p and stores it in the global 
+ *                      particle i and stores it in the global 
  *                      variable gradient.
  * 
  */
@@ -246,11 +241,36 @@ void Slater::compute_gradient(int i) {
 
     if (i < N) {
         for (int j = 0; j < N; j++) { // Spin up.
-            gradient += orbital->get_gradient(r_new.row(i), nx(j), ny(j)) * Dp_inv(j, i); 
+            gradient += orbital->get_gradient(r_new.row(i), nx(j), ny(j)) * Dp_inv(j, i);
         }
     } else {
         for (int j = 0; j < N; j++) { // Spin down.
             gradient += orbital->get_gradient(r_new.row(i), nx(j), ny(j)) * Dm_inv(j, i - N);
         }
     }
+}
+
+/*******************************************************************
+ * 
+ * NAME :               evaluate(mat r)  
+ * 
+ *
+ * DESCRIPTION :        Returns the determinant of D(r) using 
+ *                      Armadillos determinant function. This
+ *                      function is used if we have to evaluate
+ *                      the WF in unrelated new coordinates.
+ * 
+ */
+double Slater::evaluate(mat r) {
+    mat D_p = zeros(N, N);
+    mat D_m = zeros(N, N);
+
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N; j++) {
+            D_p(j, i) = orbital->evaluate(r.row(i), nx(j), ny(j));
+            D_m(j, i) = orbital->evaluate(r.row(i + N), nx(j), ny(j));
+        }
+    }
+
+    return det(D_p) * det(D_m);
 }

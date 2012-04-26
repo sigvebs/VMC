@@ -56,7 +56,7 @@ void QD_VMC_APP::QD_run_VMC() {
     MPI_Comm_size(MPI_COMM_WORLD, &numproc);
     MPI_Comm_rank(MPI_COMM_WORLD, &my_rank);
 
-    idum -= my_rank - time(NULL);
+    idum = idum - my_rank - time(NULL);
     mc_cycles /= numproc;
 
     // Initiating Energy classes
@@ -64,7 +64,7 @@ void QD_VMC_APP::QD_run_VMC() {
     Interaction* interaction = new QD_electron_interaction(dim, n_particles);
     Kinetic* kinetic = new QD_kinetic(dim, n_particles, w);
     Hamiltonian* ht = new Hamiltonian(potential, interaction, kinetic, jastrow);
-
+    
     // Running over all variational parameters.
     for (int i = 0; i < a_steps; i++) {
         a = a_start + i*delta_a;
@@ -79,7 +79,7 @@ void QD_VMC_APP::QD_run_VMC() {
             Wavefunction* wf = new QD_wavefunction(dim, n_particles, a, b, w, jastrow, orbital, jastrow_function);
             
             kinetic->set_wf(wf);
-
+            
             if (sampling == 0)
                 paramset[i][j] = new MC_Brute_Force(ht, wf, mc_cycles, idum);
             else if (sampling == 1) {
@@ -168,7 +168,7 @@ QD_VMC_APP::QD_VMC_APP() {
     ini INIreader("QD.ini");
 
     mc_cycles = (int) INIreader.GetDouble("main", "mc_cycles");
-    w = (int) INIreader.GetDouble("main", "w");
+    w = INIreader.GetDouble("main", "w");
     dim = INIreader.GetInt("main", "dim");
     n_particles = INIreader.GetInt("main", "n_particles");
 

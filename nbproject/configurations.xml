@@ -4,6 +4,7 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <itemPath>DMC.h</itemPath>
       <itemPath>Hamiltonian.h</itemPath>
       <itemPath>Hermite.h</itemPath>
       <itemPath>Interaction.h</itemPath>
@@ -20,6 +21,11 @@
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
                    projectFiles="true">
+      <logicalFolder name="f1" displayName="Minimization" projectFiles="true">
+        <itemPath>includes/minimization/model.cpp</itemPath>
+        <itemPath>includes/minimization/vectormatrixclass.cpp</itemPath>
+        <itemPath>includes/minimization/vectormatrixclass.h</itemPath>
+      </logicalFolder>
       <itemPath>includes/ini.cpp</itemPath>
       <itemPath>includes/ini.h</itemPath>
       <itemPath>includes/lib.cpp</itemPath>
@@ -28,6 +34,10 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
+      <logicalFolder name="f4" displayName="Blocking" projectFiles="true">
+        <itemPath>Blocking/Blocking.cpp</itemPath>
+        <itemPath>Blocking/Blocking.h</itemPath>
+      </logicalFolder>
       <logicalFolder name="f2" displayName="Light Atoms" projectFiles="true">
         <itemPath>Coulomb_pot.cpp</itemPath>
         <itemPath>Coulomb_pot.h</itemPath>
@@ -38,8 +48,13 @@
         <itemPath>electron_interaction.cpp</itemPath>
         <itemPath>electron_interaction.h</itemPath>
       </logicalFolder>
+      <logicalFolder name="f3" displayName="One Body Density" projectFiles="true">
+        <itemPath>One_Body_Density/One_Body_Density.cpp</itemPath>
+        <itemPath>One_Body_Density/One_Body_Density.h</itemPath>
+      </logicalFolder>
       <logicalFolder name="f1" displayName="Quantum Dots " projectFiles="true">
         <logicalFolder name="f1" displayName="Headers" projectFiles="true">
+          <itemPath>QD/QD_Conjugate_Gradient.h</itemPath>
           <itemPath>QD/QD_Harmonic_osc.h</itemPath>
           <itemPath>QD/QD_Jastrow.h</itemPath>
           <itemPath>QD/QD_Orbital.h</itemPath>
@@ -48,6 +63,7 @@
           <itemPath>QD/QD_kinetic.h</itemPath>
           <itemPath>QD/QD_wavefunction.h</itemPath>
         </logicalFolder>
+        <itemPath>QD/QD_Conjugate_Gradient.cpp</itemPath>
         <itemPath>QD/QD_Harmonic_osc.cpp</itemPath>
         <itemPath>QD/QD_Jastrow.cpp</itemPath>
         <itemPath>QD/QD_Orbital.cpp</itemPath>
@@ -56,6 +72,7 @@
         <itemPath>QD/QD_kinetic.cpp</itemPath>
         <itemPath>QD/QD_wavefunction.cpp</itemPath>
       </logicalFolder>
+      <itemPath>DMC.cpp</itemPath>
       <itemPath>Hamiltonian.cpp</itemPath>
       <itemPath>Hermite.cpp</itemPath>
       <itemPath>Interaction.cpp</itemPath>
@@ -76,6 +93,12 @@
                    displayName="Test Files"
                    projectFiles="false"
                    kind="TEST_LOGICAL_FOLDER">
+      <logicalFolder name="f1"
+                     displayName="New C++ Simple Test"
+                     projectFiles="true"
+                     kind="TEST">
+        <itemPath>tests/newsimpletest.cpp</itemPath>
+      </logicalFolder>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -86,7 +109,7 @@
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
-    <conf name="Debug" type="1">
+    <conf name="Debug_1_cpu" type="1">
       <toolsSet>
         <remote-sources-mode>LOCAL_SOURCES</remote-sources-mode>
         <compilerSet>default</compilerSet>
@@ -95,6 +118,45 @@
         <ccTool>
           <commandlineTool>mpicxx </commandlineTool>
           <commandLine>-o3 -DMPICH_IGNORE_CXX_SEEK -llapack -lblas -larmadillo</commandLine>
+        </ccTool>
+      </compileType>
+    </conf>
+    <conf name="Debug_4cpu" type="1">
+      <toolsSet>
+        <remote-sources-mode>LOCAL_SOURCES</remote-sources-mode>
+        <compilerSet>default</compilerSet>
+      </toolsSet>
+      <compileType>
+        <ccTool>
+          <commandlineTool>mpicxx </commandlineTool>
+          <commandLine>-o3 -DMPICH_IGNORE_CXX_SEEK -llapack -lblas -larmadillo</commandLine>
+        </ccTool>
+      </compileType>
+      <folder path="TestFiles/f1">
+        <cTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </cTool>
+        <ccTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f1</output>
+        </linkerTool>
+      </folder>
+    </conf>
+    <conf name="Profiler" type="1">
+      <toolsSet>
+        <remote-sources-mode>LOCAL_SOURCES</remote-sources-mode>
+        <compilerSet>default</compilerSet>
+      </toolsSet>
+      <compileType>
+        <ccTool>
+          <commandlineTool>mpicxx </commandlineTool>
+          <commandLine>-pg -o3 -DMPICH_IGNORE_CXX_SEEK -llapack -lblas -larmadillo</commandLine>
         </ccTool>
       </compileType>
     </conf>
@@ -119,16 +181,22 @@
         </asmTool>
       </compileType>
     </conf>
-    <conf name="Profiler" type="1">
+    <conf name="Debug_4cpu_home" type="1">
       <toolsSet>
         <remote-sources-mode>LOCAL_SOURCES</remote-sources-mode>
         <compilerSet>default</compilerSet>
+        <dependencyChecking>false</dependencyChecking>
       </toolsSet>
       <compileType>
         <ccTool>
-          <commandlineTool>mpicxx </commandlineTool>
-          <commandLine>-DMPICH_IGNORE_CXX_SEEK -pg</commandLine>
+          <commandlineTool>mpicxx</commandlineTool>
+          <commandLine>-o3 -DMPICH_IGNORE_CXX_SEEK -llapack -lblas -larmadillo</commandLine>
         </ccTool>
+        <linkerTool>
+          <linkerLibItems>
+            <linkerLibLibItem>armadillo</linkerLibLibItem>
+          </linkerLibItems>
+        </linkerTool>
       </compileType>
     </conf>
   </confs>

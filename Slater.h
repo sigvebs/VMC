@@ -11,7 +11,7 @@
 #include <armadillo>
 using namespace arma;
 
-#include "Orbital.h";
+#include "Orbital.h"
 
 class Slater {
 public:
@@ -27,6 +27,7 @@ public:
     void update_inverse();
     void accept_new_position();
     void init();
+    double evaluate(mat);
 protected:
     Orbital *orbital;
     double w;

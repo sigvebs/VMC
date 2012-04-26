@@ -22,7 +22,7 @@ AS=as
 
 # Macros
 CND_PLATFORM=GNU-Linux-x86
-CND_CONF=Profiler
+CND_CONF=Debug_4cpu
 CND_DISTDIR=dist
 CND_BUILDDIR=build
 
@@ -72,14 +72,14 @@ TESTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}/tests
 
 # Test Files
 TESTFILES= \
-	${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/vmc
+	${TESTDIR}/TestFiles/f1
 
 # C Compiler Flags
 CFLAGS=
 
 # CC Compiler Flags
-CCFLAGS=-pg -o3 -DMPICH_IGNORE_CXX_SEEK -llapack -lblas -larmadillo
-CXXFLAGS=-pg -o3 -DMPICH_IGNORE_CXX_SEEK -llapack -lblas -larmadillo
+CCFLAGS=-o3 -DMPICH_IGNORE_CXX_SEEK -llapack -lblas -larmadillo
+CXXFLAGS=-o3 -DMPICH_IGNORE_CXX_SEEK -llapack -lblas -larmadillo
 
 # Fortran Compiler Flags
 FFLAGS=
@@ -263,15 +263,15 @@ ${OBJECTDIR}/Orbital.o: Orbital.cpp
 
 # Build Test Targets
 .build-tests-conf: .build-conf ${TESTFILES}
-${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/vmc: ${TESTDIR}/tests/newsimpletest.o ${OBJECTFILES:%.o=%_nomain.o}
-	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
-	${LINK.cc}   -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/vmc $^ ${LDLIBSOPTIONS} 
+${TESTDIR}/TestFiles/f1: ${TESTDIR}/tests/newsimpletest.o ${OBJECTFILES:%.o=%_nomain.o}
+	${MKDIR} -p ${TESTDIR}/TestFiles
+	${LINK.cc}   -o ${TESTDIR}/TestFiles/f1 $^ ${LDLIBSOPTIONS} 
 
 
 ${TESTDIR}/tests/newsimpletest.o: tests/newsimpletest.cpp 
 	${MKDIR} -p ${TESTDIR}/tests
 	${RM} $@.d
-	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${TESTDIR}/tests/newsimpletest.o tests/newsimpletest.cpp
+	$(COMPILE.cc) -g -I. -MMD -MP -MF $@.d -o ${TESTDIR}/tests/newsimpletest.o tests/newsimpletest.cpp
 
 
 ${OBJECTDIR}/Interaction_nomain.o: ${OBJECTDIR}/Interaction.o Interaction.cpp 
@@ -694,7 +694,7 @@ ${OBJECTDIR}/Orbital_nomain.o: ${OBJECTDIR}/Orbital.o Orbital.cpp
 .test-conf:
 	@if [ "${TEST}" = "" ]; \
 	then  \
-	    ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/vmc || true; \
+	    ${TESTDIR}/TestFiles/f1 || true; \
 	else  \
 	    ./${TEST} || true; \
 	fi

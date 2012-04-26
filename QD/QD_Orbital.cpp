@@ -38,7 +38,7 @@ double QD_Orbital::evaluate(rowvec r, int nx, int ny) {
  * 
  * NAME :               eval_simple( double** r)
  *
- * DESCRIPTION :        Evaluates the 'simple' wavefunction at the coordinate r.
+ * DESCRIPTION :        Evaluates the orbital in the coordinate r.
  * 
  */
 double QD_Orbital::evaluate_exp(rowvec r) {
@@ -49,7 +49,7 @@ double QD_Orbital::evaluate_exp(rowvec r) {
  * 
  * NAME :               evaluate_laplacian( rowvec r, int nx, int ny )
  *
- * DESCRIPTION :        Evaluates the Laplacian at the coordinate r.
+ * DESCRIPTION :        Evaluates the Laplacian in the coordinate r.
  * 
  */
 
@@ -68,9 +68,9 @@ double QD_Orbital::evaluate_laplacian(rowvec r, int nx, int ny) {
     if (nx > 0)
         sum -= 4.0 * sqrt_w_alpha * nx * r(0) * H->polynomial(nx - 1, sqrt_w_alpha * r(0)) / Hx;
 
-    if (ny > 0) 
+    if (ny > 0)
         sum -= 4 * sqrt_w_alpha * ny * r(1) * H->polynomial(ny - 1, sqrt_w_alpha * r(1)) / Hy;
-    
+
     sum += w_alpha * dot(r, r) - 2;
     sum *= w_alpha;
 

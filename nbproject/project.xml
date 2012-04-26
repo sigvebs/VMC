@@ -12,7 +12,15 @@
             <sourceRootList/>
             <confList>
                 <confElem>
-                    <name>Debug</name>
+                    <name>Debug_1_cpu</name>
+                    <type>1</type>
+                </confElem>
+                <confElem>
+                    <name>Debug_4cpu</name>
+                    <type>1</type>
+                </confElem>
+                <confElem>
+                    <name>Profiler</name>
                     <type>1</type>
                 </confElem>
                 <confElem>
@@ -20,7 +28,7 @@
                     <type>1</type>
                 </confElem>
                 <confElem>
-                    <name>Profiler</name>
+                    <name>Debug_4cpu_home</name>
                     <type>1</type>
                 </confElem>
             </confList>

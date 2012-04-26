@@ -8,15 +8,17 @@
 
 #include "QD/QD_VMC_APP.h"
 #include "LA_VMC_APP.h"
-
-//using namespace std;
+#include "One_Body_Density/One_Body_Density.h";
+#include "Blocking/Blocking.h"
 
 /*
  * 
  */
 int main(int argc, char** argv) {
-    new QD_VMC_APP();
     
+    new QD_VMC_APP();
+    //new Blocking();
+    //new One_Body_Density();
     return 0;
 }
 

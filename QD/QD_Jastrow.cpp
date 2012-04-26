@@ -11,7 +11,7 @@
 QD_Jastrow::QD_Jastrow(int dim, int n_particles, double beta) : Jastrow(dim, n_particles, beta) {
 
     // Initiating a matrix with all the spin dependant a-values.
-    a = zeros <mat > (n_particles, n_particles);
+    a = zeros(n_particles, n_particles);
 
     for (int i = 0; i < n_particles; i++) {
         for (int j = 0; j < n_particles; j++) {
@@ -87,7 +87,7 @@ double QD_Jastrow::get_laplacian(mat r, int i) {
  * NAME :               compute_gradient(mat r)
  *
  * DESCRIPTION :        Computes the total Jasrow Wavefunction's 
- *                      gradient in r.
+ *                      gradient in r, component i.
  * 
  */
 void QD_Jastrow::compute_gradient(mat r, int i) {
@@ -97,6 +97,7 @@ void QD_Jastrow::compute_gradient(mat r, int i) {
     // Before i
     for (int k = 0; k < i; k++) {
         r_ki = norm(r.row(k) - r.row(i), 2);
+        r_ki = sqrt(dot(r.row(k) - r.row(i), r.row(k) - r.row(i)));
         gradient += a(k, i) / r_ki / pow((1 + beta * r_ki), 2)*(r.row(i) - r.row(k));
     }
 
@@ -105,4 +106,11 @@ void QD_Jastrow::compute_gradient(mat r, int i) {
         r_ki = norm(r.row(k) - r.row(i), 2);
         gradient += a(k, i) / r_ki / pow((1 + beta * r_ki), 2)*(r.row(i) - r.row(k));
     }
+/*
+    // After i
+    for (int k = i + 1; k < n_particles; k++) {
+        r_ki = norm(r.row(k) - r.row(i), 2);
+        gradient += a(k, i) / r_ki / pow((1 + beta * r_ki), 2)*(r.row(i) - r.row(k));
+    }
+ */ 
 }

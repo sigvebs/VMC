@@ -27,11 +27,11 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 PROJECTNAME=VMC
 
 # Active Configuration
-DEFAULTCONF=Debug
+DEFAULTCONF=Debug_1_cpu
 CONF=${DEFAULTCONF}
 
 # All Configurations
-ALLCONFS=Debug Release Profiler 
+ALLCONFS=Debug_1_cpu Debug_4cpu Profiler Release Debug_4cpu_home 
 
 
 # build

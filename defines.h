@@ -10,6 +10,7 @@
 
 #define NUMERICAL 0
 #define DEBUG 0
+#define BLOCKING 0
 
 #endif	/* DEFINES_H */
 
